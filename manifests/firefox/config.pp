@@ -30,7 +30,7 @@ class forthewin::firefox::config {
   if $forthewin::firefox::enable_autoconfig {
 
     # Full path to autoconfig.js in destination
-    $autoconfig_dst = "${firefox_home}\\defaults\\pref\\autoconfig.js"
+    $autoconfig_dst = "${firefox_home}\\defaults\\pref\\_autoconfig.js"
     # Full path to Firefox's customized settings, source and destination
     if $forthewin::firefox::config_path {
       $mozillacfg_src = "${forthewin::firefox::config_path}/${forthewin::firefox::config_filename}"
