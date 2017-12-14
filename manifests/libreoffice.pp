@@ -1,6 +1,7 @@
 class forthewin::libreoffice (
   Boolean $check_for_updates               = false,
   Boolean $create_desktop_link             = true,
+  Boolean $disable_opengl                  = false,
   Boolean $enable_quickstart               = false,
   Optional[String] $help_pack_filename     = undef,
   Array[String] $help_pack_install_options = ['/qn'],
@@ -24,6 +25,7 @@ class forthewin::libreoffice (
   info("[${trusted[certname]}] PARAMETERS:")
   info("[${trusted[certname]}] check_for_updates         = ${check_for_updates}")
   info("[${trusted[certname]}] create_desktop_link       = ${create_desktop_link}")
+  info("[${trusted[certname]}] disable_opengl            = ${disable_opengl}")
   info("[${trusted[certname]}] enable_quickstart         = ${enable_quickstart}")
   info("[${trusted[certname]}] help_pack_filename        = ${help_pack_filename}")
   info("[${trusted[certname]}] help_pack_install_options = ${help_pack_install_options}")
@@ -53,12 +55,14 @@ class forthewin::libreoffice (
 
   unless $is_libreoffice_running or $forthewin::params::platform in ['wxp', 'wvista'] {
 
-    # https://docs.puppet.com/puppet/latest/lang_containment.html
     contain forthewin::libreoffice::install
-    contain forthewin::libreoffice::help
+    contain forthewin::libreoffice::config
+    Class['forthewin::libreoffice::install'] -> Class['forthewin::libreoffice::config']
 
-    # https://docs.puppet.com/puppet/latest/lang_relationships.html
-    Class['forthewin::libreoffice::install'] -> Class['forthewin::libreoffice::help']
+    if $install_help_pack {
+      contain forthewin::libreoffice::help
+      Class['forthewin::libreoffice::install'] -> Class['forthewin::libreoffice::help']
+    }
 
   }
 
