@@ -1,6 +1,7 @@
 class forthewin::libreoffice (
   Boolean $check_for_updates               = false,
   Boolean $create_desktop_link             = true,
+  Boolean $disable_hw_graphic_accel        = false,
   Boolean $disable_opengl                  = false,
   Boolean $enable_quickstart               = false,
   Optional[String] $help_pack_filename     = undef,
@@ -25,6 +26,7 @@ class forthewin::libreoffice (
   info("[${trusted[certname]}] PARAMETERS:")
   info("[${trusted[certname]}] check_for_updates         = ${check_for_updates}")
   info("[${trusted[certname]}] create_desktop_link       = ${create_desktop_link}")
+  info("[${trusted[certname]}] disable_hw_graphic_accel  = ${disable_hw_graphic_accel}")
   info("[${trusted[certname]}] disable_opengl            = ${disable_opengl}")
   info("[${trusted[certname]}] enable_quickstart         = ${enable_quickstart}")
   info("[${trusted[certname]}] help_pack_filename        = ${help_pack_filename}")
