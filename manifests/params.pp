@@ -11,9 +11,15 @@
 # https://docs.puppet.com/puppet/3.8/config_important_settings.html#recommended-and-safe
 # https://docs.puppet.com/puppet/3.8/experiments_future.html#enabling-the-future-parser
 class forthewin::params (
+  Pattern[/\A[a-z]{2,3}(?:-[A-Z]{2})?\Z/] $lang = 'en-US',
   String $repo_basepath = "\\\\winrepo.${facts[domain]}",
   String $tempdir = $winparams::tempdir,
   ) inherits winparams {
+
+  info('PARAMETERS:')
+  info("lang          = ${lang}")
+  info("repo_basepath = ${repo_basepath}")
+  info("tempdir       = ${tempdir}")
 
   if $facts[osfamily] != 'windows' {
     fail('Unsupported platform. This module is Windows only.')
