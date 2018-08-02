@@ -13,7 +13,6 @@ class forthewin::gimp (
   info("[${trusted[certname]}] version            = ${version}")
 
   # Is GIMP running?
-  # It only checks for version 2.8!
   $is_gimp_running = str2bool($facts[is_gimp_running])
 
   info("[${trusted[certname]}] VARIABLES:")
