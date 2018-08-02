@@ -2,10 +2,9 @@ Facter.add("is_gimp_running") do
   confine :operatingsystem => 'windows'
   setcode do
 
-    # Right now it only checks for version 2.8!
-    process_name = 'gimp-2.8.exe'
     #https://en.wikibooks.org/wiki/Ruby_Programming/Syntax/Literals
-    cmd = %Q[tasklist /FI "IMAGENAME eq #{process_name}" 2>NUL | find /I "#{process_name}"]
+    process_name_regex = %q[gimp-[0-9][0-9]*\.[0-9][0-9]*\.exe]
+    cmd = %Q[tasklist 2>NUL | findstr /I /R #{process_name_regex}]
     #puts cmd    
     result = %x[#{cmd}]
     #puts ">>>#{result}<<<"
