@@ -2,16 +2,14 @@
 class forthewin::gimp (
   Optional[String] $installer_filename = undef,
   String $installer_path = "${forthewin::params::repo_basepath}\\gimp",
-  Pattern[/\A[a-z]{2,3}(?:-[A-Z]{2})?\Z/] $lang = 'en-US',
-  Array[String] $uninstall_list = [],
+  Array[String] $install_options = ['/VERYSILENT', '/SUPPRESSMSGBOXES', '/NORESTART', "/LANG=${forthewin::params::lang}"],
   Pattern[/\A[0-9]+[.][0-9]+[.][0-9]+\Z/] $version
   ) inherits forthewin::params {
 
   info("[${trusted[certname]}] PARAMETERS:")
   info("[${trusted[certname]}] installer_filename = ${installer_filename}")
   info("[${trusted[certname]}] installer_path     = ${installer_path}")
-  info("[${trusted[certname]}] lang               = ${lang}")
-  info("[${trusted[certname]}] uninstall_list     = ${uninstall_list}")
+  info("[${trusted[certname]}] install_options    = ${install_options}")
   info("[${trusted[certname]}] version            = ${version}")
 
   # Is GIMP running?
@@ -25,10 +23,6 @@ class forthewin::gimp (
 
     # https://docs.puppet.com/puppet/latest/lang_containment.html
     contain forthewin::gimp::install
-    contain forthewin::gimp::postinstall
-
-    # https://docs.puppet.com/puppet/latest/lang_relationships.html
-    Class['forthewin::gimp::install'] -> Class['forthewin::gimp::postinstall']
 
   }
 
