@@ -14,12 +14,15 @@ class forthewin::params (
   Pattern[/\A[a-z]{2,3}(?:-[A-Z]{2})?\Z/] $lang = 'en-US',
   String $repo_basepath = "\\\\winrepo.${facts[domain]}",
   String $tempdir = $winparams::tempdir,
+  Boolean $verbose = $winparams::verbose,
   ) inherits winparams {
 
-  info('PARAMETERS:')
-  info("lang          = ${lang}")
-  info("repo_basepath = ${repo_basepath}")
-  info("tempdir       = ${tempdir}")
+  if $verbose {
+    info("[${trusted[certname]}] PARAMETERS:")
+    info("[${trusted[certname]}] lang           = ${lang}")
+    info("[${trusted[certname]}] repo_basepath  = ${repo_basepath}")
+    info("[${trusted[certname]}] tempdir        = ${tempdir}")
+  }
 
   if $facts[osfamily] != 'windows' {
     fail('Unsupported platform. This module is Windows only.')
@@ -28,6 +31,11 @@ class forthewin::params (
   # The following text is inserted as comments in the begining of all config files defined in this module
   $default_header = "Generated automatically by almg-${module_name} puppet module.\r\n"
 
+  if $verbose {
+    info("[${trusted[certname]}] VARIABLES:")
+    info("[${trusted[certname]}] default_header = ${default_header}")
+  }  
+  
   # Resource defaults
   File {
     # In 3.x source_permissions defaults to "use" while in 4.x it defaults to "ignore"
