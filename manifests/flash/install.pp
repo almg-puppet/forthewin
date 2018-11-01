@@ -34,15 +34,17 @@ class forthewin::flash::install {
   $install_options = ['/qn']
   $uninstall_options = ['/x']
 
-  info('VARIABLES:')
-  info("v = ${v}")
-  info("major = ${major}")
-  info("vfn = ${vfn}")
-  info("installer_activex = ${installer_activex}")
-  info("installer_npapi = ${installer_npapi}")
-  info("installer_ppapi = ${installer_ppapi}")
-  info("install_options = ${install_options}")
-  info("uninstall_options = ${uninstall_options}")
+  if $forthewin::flash::verbose {
+    info("[${trusted[certname]}] VARIABLES:")
+    info("[${trusted[certname]}] install_options   = ${install_options}")
+    info("[${trusted[certname]}] installer_activex = ${installer_activex}")
+    info("[${trusted[certname]}] installer_npapi   = ${installer_npapi}")
+    info("[${trusted[certname]}] installer_ppapi   = ${installer_ppapi}")
+    info("[${trusted[certname]}] major             = ${major}")
+    info("[${trusted[certname]}] uninstall_options = ${uninstall_options}")
+    info("[${trusted[certname]}] v                 = ${v}")
+    info("[${trusted[certname]}] vfn               = ${vfn}")
+  }
 
   # Flash for IE
   # Works for XP, Vista and W7

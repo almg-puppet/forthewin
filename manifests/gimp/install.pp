@@ -7,13 +7,15 @@ class forthewin::gimp::install {
   } else {
     $installer = "${forthewin::gimp::installer_path}\\gimp-${forthewin::gimp::version}-setup.exe"
   }
-  
+
   # Split version to get major, minor and revision number
   $v = split($forthewin::gimp::version, '[.]')
 
-  info("[${trusted[certname]}] VARIABLES:")
-  info("[${trusted[certname]}] installer = ${installer}")
-  info("[${trusted[certname]}] v         = ${v}")
+  if $forthewin::gimp::verbose {
+    info("[${trusted[certname]}] VARIABLES:")
+    info("[${trusted[certname]}] installer = ${installer}")
+    info("[${trusted[certname]}] v         = ${v}")
+  }
 
   package { "GIMP ${v[0]}.${v[1]}.x":
     name            => "GIMP ${forthewin::gimp::version}",

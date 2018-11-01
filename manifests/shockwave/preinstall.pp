@@ -3,9 +3,11 @@ class forthewin::shockwave::preinstall {
   $command = "${forthewin::params::tempdir}\\shockwaveUninstallMSI.ps1"
   $onlyif = "${forthewin::params::tempdir}\\shockwaveCheckMSI.ps1"
 
-  info('VARIABLES:')
-  info("command = ${command}")
-  info("onlyif = ${onlyif}")
+  if $forthewin::shockwave::verbose {
+    info("[${trusted[certname]}] VARIABLES:")
+    info("[${trusted[certname]}] command = ${command}")
+    info("[${trusted[certname]}] onlyif  = ${onlyif}")
+  }
 
   file { $onlyif:
     ensure => file,

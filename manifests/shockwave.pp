@@ -6,15 +6,18 @@
 class forthewin::shockwave (
   String $installer_filename = 'sw_lic_full_installer.exe',
   String $installer_path = "${forthewin::params::repo_basepath}\\adobe",
-  Pattern[/\A[0-9]+[.][0-9]+[.][0-9]+[.][0-9]+\Z/] $version,
   Boolean $uninstall_msi = false,
+  Boolean $verbose = $forthewin::params::verbose,
+  Pattern[/\A[0-9]+[.][0-9]+[.][0-9]+[.][0-9]+\Z/] $version,
   ) inherits forthewin::params {
 
-  info('PARAMETERS:')
-  info("installer_filename = ${installer_filename}")
-  info("installer_path = ${installer_path}")
-  info("version = ${version}")
-  info("uninstall_msi = ${uninstall_msi}")
+  if $verbose {
+    info("[${trusted[certname]}] PARAMETERS:")
+    info("[${trusted[certname]}] installer_filename = ${installer_filename}")
+    info("[${trusted[certname]}] installer_path     = ${installer_path}")
+    info("[${trusted[certname]}] uninstall_msi      = ${uninstall_msi}")
+    info("[${trusted[certname]}] version            = ${version}")
+  }
 
   # Install options of the installer
   case $installer_filename {
@@ -23,8 +26,10 @@ class forthewin::shockwave (
     default: { fail('Installer must be either MSI or EXE.') }
   }
 
-  info('VARIABLES:')
-  info("install_options = ${install_options}")
+  if $verbose {
+    info("[${trusted[certname]}] VARIABLES:")
+    info("[${trusted[certname]}] install_options = ${install_options}")
+  }
 
   contain forthewin::shockwave::install
 

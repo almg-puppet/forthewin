@@ -14,14 +14,6 @@ class forthewin::sevenzip::install {
   $package_x86 = "7-Zip ${forthewin::sevenzip::version}"
   $package_x64 = "7-Zip ${forthewin::sevenzip::version} (x64 edition)"
 
-  info("[${trusted[certname]}] VARIABLES:")
-  info("[${trusted[certname]}] install_options = ${install_options}")
-  info("[${trusted[certname]}] installer_x86   = ${installer_x86}")
-  info("[${trusted[certname]}] installer_x64   = ${installer_x64}")
-  info("[${trusted[certname]}] package_x86     = ${package_x86}")
-  info("[${trusted[certname]}] package_x64     = ${package_x64}")
-  info("[${trusted[certname]}] v               = ${v}")
-
   # Full path to installer
   if $forthewin::sevenzip::installer_filename {
 
@@ -52,8 +44,17 @@ class forthewin::sevenzip::install {
 
   }
 
-  info("[${trusted[certname]}] installer       = ${installer}")
-  info("[${trusted[certname]}] package         = ${package}")
+  if $forthewin::sevenzip::verbose {
+    info("[${trusted[certname]}] VARIABLES:")
+    info("[${trusted[certname]}] install_options = ${install_options}")
+    info("[${trusted[certname]}] installer       = ${installer}")
+    info("[${trusted[certname]}] installer_x64   = ${installer_x64}")
+    info("[${trusted[certname]}] installer_x86   = ${installer_x86}")
+    info("[${trusted[certname]}] package         = ${package}")
+    info("[${trusted[certname]}] package_x64     = ${package_x64}")
+    info("[${trusted[certname]}] package_x86     = ${package_x86}")
+    info("[${trusted[certname]}] v               = ${v}")
+  }
 
   package { $package:
     ensure          => present,

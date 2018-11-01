@@ -5,18 +5,21 @@ class forthewin::sevenzip (
   Optional[String] $installer_filename = undef,
   String $installer_path = "${forthewin::params::repo_basepath}\\7zip",
   Array[String] $uninstall_list = [],
+  Boolean $verbose = $forthewin::params::verbose,
   Pattern[/\A[0-9]+[.][0-9]+\Z/] $version,
   Boolean $x86_only = false,
   ) inherits forthewin::params {
 
-  info("[${trusted[certname]}] PARAMETERS:")
-  info("[${trusted[certname]}] assoc              = ${assoc}")
-  info("[${trusted[certname]}] installer_arch     = ${installer_arch}")
-  info("[${trusted[certname]}] installer_filename = ${installer_filename}")
-  info("[${trusted[certname]}] installer_path     = ${installer_path}")
-  info("[${trusted[certname]}] uninstall_list     = ${uninstall_list}")
-  info("[${trusted[certname]}] version            = ${version}")
-  info("[${trusted[certname]}] x86_only           = ${x86_only}")
+  if $verbose {
+    info("[${trusted[certname]}] PARAMETERS:")
+    info("[${trusted[certname]}] assoc              = ${assoc}")
+    info("[${trusted[certname]}] installer_arch     = ${installer_arch}")
+    info("[${trusted[certname]}] installer_filename = ${installer_filename}")
+    info("[${trusted[certname]}] installer_path     = ${installer_path}")
+    info("[${trusted[certname]}] uninstall_list     = ${uninstall_list}")
+    info("[${trusted[certname]}] version            = ${version}")
+    info("[${trusted[certname]}] x86_only           = ${x86_only}")
+  }
 
   # Proceed if installer_filename XNOR installer_arch
   unless (!$installer_filename and !$installer_arch) or ($installer_filename and $installer_arch) {

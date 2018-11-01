@@ -52,9 +52,11 @@ class forthewin::sevenzip::config {
     }
   }
 
-  info("[${trusted[certname]}] VARIABLES:")
-  info("[${trusted[certname]}] icons = ${icons}")
-  info("[${trusted[certname]}] programfiles = ${programfiles}")
+  if $forthewin::sevenzip::verbose {
+    info("[${trusted[certname]}] VARIABLES:")
+    info("[${trusted[certname]}] icons = ${icons}")
+    info("[${trusted[certname]}] programfiles = ${programfiles}")
+  }
 
   $forthewin::sevenzip::assoc.each | $ext | {
 

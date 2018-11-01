@@ -12,30 +12,36 @@ class forthewin::flash (
   Optional[String] $installer_npapi_filename = undef,
   Optional[String] $installer_ppapi_filename = undef,
   Hash $settings = {},
+  Boolean $verbose = $forthewin::params::verbose,
   Pattern[/\A[0-9]+[.][0-9]+[.][0-9]+[.][0-9]+\Z/] $version,
   ) inherits forthewin::params {
 
-  info('PARAMETERS:')
-  info("disable_autoupdate = ${disable_autoupdate}")
-  info("enable_silent_autoupdate = ${enable_silent_autoupdate}")
-  info("install_activex = ${install_activex}")
-  info("install_npapi = ${install_npapi}")
-  info("install_ppapi = ${install_ppapi}")
-  info("installer_path = ${installer_path}")
-  info("installer_activex_filename = ${installer_activex_filename}")
-  info("installer_npapi_filename = ${installer_npapi_filename}")
-  info("installer_ppapi_filename = ${installer_ppapi_filename}")
-  info("settings = ${settings}")
-  info("version = ${version}")
+  if $verbose {
+    info("[${trusted[certname]}] PARAMETERS:")
+    info("[${trusted[certname]}] disable_autoupdate         = ${disable_autoupdate}")
+    info("[${trusted[certname]}] enable_silent_autoupdate   = ${enable_silent_autoupdate}")
+    info("[${trusted[certname]}] install_activex            = ${install_activex}")
+    info("[${trusted[certname]}] install_npapi              = ${install_npapi}")
+    info("[${trusted[certname]}] install_ppapi              = ${install_ppapi}")
+    info("[${trusted[certname]}] installer_activex_filename = ${installer_activex_filename}")
+    info("[${trusted[certname]}] installer_npapi_filename   = ${installer_npapi_filename}")
+    info("[${trusted[certname]}] installer_path             = ${installer_path}")
+    info("[${trusted[certname]}] installer_ppapi_filename   = ${installer_ppapi_filename}")
+    info("[${trusted[certname]}] settings                   = ${settings}")
+    info("[${trusted[certname]}] version                    = ${version}")
+  }
 
   # TODO: obtain path using facts
   $mmscfg_path = $::architecture ? {
     'x64' => 'C:/Windows/SysWOW64/Macromed/Flash/mms.cfg',
     'x86' => 'C:/Windows/system32/Macromed/Flash/mms.cfg',
   }
-  info('VARIABLES:')
-  info("mmscfg_path = ${mmscfg_path}")
-  
+
+  if $verbose {
+    info("[${trusted[certname]}] VARIABLES:")
+    info("[${trusted[certname]}] mmscfg_path = ${mmscfg_path}")
+  }
+
   # https://docs.puppet.com/puppet/latest/lang_containment.html
   contain forthewin::flash::install
   contain forthewin::flash::config
