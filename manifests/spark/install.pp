@@ -9,10 +9,12 @@ class forthewin::spark::install {
     $installer = "${forthewin::spark::installer_path}\\spark_${v[0]}_${v[1]}_${v[2]}.exe"
   }
 
-  info('VARIABLES:')
-  info("v = ${v}")
-  info("installer = ${installer}")
-  info("install_options = ${install_options}")
+  if $forthewin::spark::verbose {
+    info("[${trusted[certname]}] VARIABLES:")
+    info("[${trusted[certname]}] install_options = ${install_options}")
+    info("[${trusted[certname]}] installer       = ${installer}")
+    info("[${trusted[certname]}] v               = ${v}")
+  }
 
   package { 'Spark':
     name            => "Spark ${forthewin::spark::version}",

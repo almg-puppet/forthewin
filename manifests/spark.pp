@@ -1,17 +1,23 @@
 class forthewin::spark (
+  Optional[String] $config_class = undef,
   Optional[String] $installer_filename = undef,
   String $installer_path = "${forthewin::params::repo_basepath}\\spark",
-  Array[String] $uninstall_list = [],
+  Optional[String] $preinstall_class = undef,
   String $server = "openfire.${facts[domain]}",
+  Boolean $verbose = $forthewin::params::verbose,
   Pattern[/\A[0-9]+[.][0-9]+[.][0-9]+[.][0-9]+\Z/] $version,
   ) inherits forthewin::params {
 
-  info('PARAMETERS:')
-  info("installer_filename = ${installer_filename}")
-  info("installer_path = ${installer_path}")
-  info("uninstall_list = ${uninstall_list}")
-  info("server = ${server}")
-  info("version = ${version}")
+  if $verbose {
+    info("[${trusted[certname]}] PARAMETERS:")
+    info("[${trusted[certname]}] config_class       = ${config_class}")
+    info("[${trusted[certname]}] installer_filename = ${installer_filename}")
+    info("[${trusted[certname]}] installer_path     = ${installer_path}")
+    info("[${trusted[certname]}] preinstall_class   = ${preinstall_class}")
+    info("[${trusted[certname]}] server             = ${server}")
+    info("[${trusted[certname]}] verbose            = ${verbose}")
+    info("[${trusted[certname]}] version            = ${version}")
+  }
 
   # https://docs.puppet.com/puppet/latest/lang_containment.html
   contain forthewin::spark::preinstall
