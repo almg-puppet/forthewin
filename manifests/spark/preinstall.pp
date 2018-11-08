@@ -27,6 +27,7 @@ class forthewin::spark::preinstall {
 
   exec { "Kill Spark before install/update":
     command => $command,
+    returns => ['0', '128'],
     unless  => $unless
   }
 
