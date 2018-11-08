@@ -47,24 +47,16 @@
 # Copyright 2017 ALMG, unless otherwise noted.
 #
 class forthewin::pdfcreator (
-  String $config_path = "${forthewin::params::repo_basepath}\\pdfcreator",
   String $config_filename = 'pdfcreator.inf',
+  String $config_path = "${forthewin::params::repo_basepath}\\pdfcreator",
   Optional[String] $installer_filename = undef,
   String $installer_path = "${forthewin::params::repo_basepath}\\pdfcreator",
   Boolean $load_inf = false,
+  Boolean $verbose = $forthewin::params::verbose,
   Pattern[/\A[0-9]+[.][0-9]+[.][0-9]+\Z/] $version
   ) inherits forthewin::params {
 
-  info('PARAMETERS:')
-  info("config_path = ${config_path}")
-  info("config_filename = ${config_filename}")
-  info("installer_filename = ${installer_filename}")
-  info("installer_path = ${installer_path}")
-  info("load_inf = ${load_inf}")
-  info("version = ${version}")
-
   # Full path to PDF Creator's installer
-  # https://docs.puppet.com/puppet/latest/function.html#split
   if $installer_filename {
     $installer = "${installer_path}\\${installer_filename}"
   } else {
@@ -72,7 +64,7 @@ class forthewin::pdfcreator (
     $installer = "${installer_path}\\PDFCreator-${v[0]}_${v[1]}_${v[2]}-Setup.exe"
   }
 
-  # Sets the "install_options" of the resource package
+  # Install options
   $default_options = ['/VERYSILENT', '/NORESTART']
   if $load_inf {
     $install_options = concat($default_options, sprintf('/LOADINF="%s\\%s"', $config_path, $config_filename))
@@ -80,11 +72,20 @@ class forthewin::pdfcreator (
     $install_options = $default_options
   }
 
-  info('VARIABLES:')
-  info("v = ${v}")
-  info("installer = ${installer}")
-  info("default_options = ${default_options}")
-  info("install_options = ${install_options}")
+  if $verbose {
+    info("[${trusted[certname]}] PARAMETERS:")
+    info("[${trusted[certname]}] config_filename    = ${config_filename}")
+    info("[${trusted[certname]}] config_path        = ${config_path}")
+    info("[${trusted[certname]}] installer_filename = ${installer_filename}")
+    info("[${trusted[certname]}] installer_path     = ${installer_path}")
+    info("[${trusted[certname]}] load_inf           = ${load_inf}")
+    info("[${trusted[certname]}] version            = ${version}")
+    info("[${trusted[certname]}] VARIABLES:")
+    info("[${trusted[certname]}] default_options    = ${default_options}")
+    info("[${trusted[certname]}] install_options    = ${install_options}")
+    info("[${trusted[certname]}] installer          = ${installer}")
+    info("[${trusted[certname]}] v                  = ${v}")
+  }
 
   package { 'PDF Creator':
     name            => 'PDFCreator',
