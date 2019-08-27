@@ -4,6 +4,7 @@ class forthewin::spark (
   String $installer_path = "${forthewin::params::repo_basepath}\\spark",
   Optional[String] $preinstall_class = undef,
   String $server = "openfire.${facts[domain]}",
+  Optional[String] $startonstartup = undef,
   Boolean $verbose = $forthewin::params::verbose,
   Pattern[/\A[0-9]+[.][0-9]+[.][0-9]+[.][0-9]+\Z/] $version,
   ) inherits forthewin::params {

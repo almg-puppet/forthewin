@@ -1,4 +1,4 @@
-class forthewin::spark::config  {
+class forthewin::spark::config {
 
   # If you want to config anything else than property "spark.properties.server",
   # you can implement it in a class and use parameter "config_class" for invocation.
@@ -8,8 +8,8 @@ class forthewin::spark::config  {
     Class[$forthewin::spark::config_class] -> Class['forthewin::spark::config']
   }
 
-  $config_dir	= "${forthewin::params::userprofile}\\Spark"
-	$config_file   = "${config_dir}\\spark.properties"
+  $config_dir   = "${forthewin::params::userprofile}\\Spark"
+    $config_file   = "${config_dir}\\spark.properties"
   $logged_user = $facts[username]
 
   if $forthewin::spark::verbose {
@@ -36,6 +36,15 @@ class forthewin::spark::config  {
       path   => $config_file,
       replace => true,
     }
-
+	->
+    if ($forthewin::spark::startonstartup) {
+        file_line { 'spark.properties.startonstartup':
+            ensure => present,
+            line   => "startOnStartup=${forthewin::spark::startonstartup}",
+            match  => '^startOnStartup\=',
+            path   => $config_file,
+            replace => true,
+        }
+    }
   }
 }
