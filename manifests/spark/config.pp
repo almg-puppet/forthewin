@@ -36,7 +36,7 @@ class forthewin::spark::config {
       path   => $config_file,
       replace => true,
     }
-	->
+	
     if ($forthewin::spark::startonstartup) {
         file_line { 'spark.properties.startonstartup':
             ensure => present,
