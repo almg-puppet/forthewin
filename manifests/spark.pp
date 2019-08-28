@@ -16,6 +16,7 @@ class forthewin::spark (
     info("[${trusted[certname]}] installer_path     = ${installer_path}")
     info("[${trusted[certname]}] preinstall_class   = ${preinstall_class}")
     info("[${trusted[certname]}] server             = ${server}")
+    info("[${trusted[certname]}] startonstartup     = ${startonstartup}")
     info("[${trusted[certname]}] verbose            = ${verbose}")
     info("[${trusted[certname]}] version            = ${version}")
   }

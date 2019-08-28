@@ -8,8 +8,8 @@ class forthewin::spark::config {
     Class[$forthewin::spark::config_class] -> Class['forthewin::spark::config']
   }
 
-  $config_dir   = "${forthewin::params::userprofile}\\Spark"
-    $config_file   = "${config_dir}\\spark.properties"
+  $config_dir  = "${forthewin::params::userprofile}\\Spark"
+  $config_file = "${config_dir}\\spark.properties"
   $logged_user = $facts[username]
 
   if $forthewin::spark::verbose {
@@ -30,21 +30,23 @@ class forthewin::spark::config {
     }
     ->
     file_line { 'spark.properties.server':
-      ensure => present,
-      line   => "server=${forthewin::spark::server}",
-      match  => '^server\=',
-      path   => $config_file,
+      ensure  => present,
+      line    => "server=${forthewin::spark::server}",
+      match   => '^server\=',
+      path    => $config_file,
       replace => true,
     }
-	
+
     if ($forthewin::spark::startonstartup) {
         file_line { 'spark.properties.startonstartup':
-            ensure => present,
-            line   => "startOnStartup=${forthewin::spark::startonstartup}",
-            match  => '^startOnStartup\=',
-            path   => $config_file,
+            ensure  => present,
+            line    => "startOnStartup=${forthewin::spark::startonstartup}",
+            match   => '^startOnStartup\=',
+            path    => $config_file,
             replace => true,
         }
     }
+
   }
+
 }
