@@ -27,13 +27,15 @@ class forthewin::java::install {
     $install_options = $forthewin::java::default_options
   }
 
-  info('VARIABLES:')
-  info("installer_x86 = ${installer_x86}")
-  info("installer_x64 = ${installer_x64}")
-  info("install_options = ${install_options}")
-  info("v = ${v}")
-  info("version = ${version}")
-  info("update = ${update}")
+  if $forthewin::java::verbose {
+    info("[${trusted[certname]}] VARIABLES:")
+    info("[${trusted[certname]}] install_options = ${install_options}")
+    info("[${trusted[certname]}] installer_x86   = ${installer_x86}")
+    info("[${trusted[certname]}] installer_x64   = ${installer_x64}")
+    info("[${trusted[certname]}] update          = ${update}")
+    info("[${trusted[certname]}] v               = ${v}")
+    info("[${trusted[certname]}] version         = ${version}")
+  }
 
   # Installs Java 32-bit if Windows x86 or install_x86_on_x64 parameter is set to true
   if $facts[architecture] == 'x86' or $forthewin::java::install_x86_on_x64 {

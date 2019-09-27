@@ -33,8 +33,10 @@ class forthewin::java::config {
       $basedir = 'C:/Users/Default/AppData/LocalLow'
     }
 
-    info('VARIABLES:')
-    info("basedir = ${basedir}")
+    if $forthewin::java::verbose {
+      info("[${trusted[certname]}] VARIABLES:")
+      info("[${trusted[certname]}] basedir = ${basedir}")
+    }
 
     file { ["${basedir}/Sun", "${basedir}/Sun/Java", "${basedir}/Sun/Java/Deployment", "${basedir}/Sun/Java/Deployment/security"]:
         ensure => directory,

@@ -5,7 +5,9 @@ class forthewin::spark::preinstall {
   # This works for version 2.7 and above. If your scenario requires other preinstall tasks
   # you can implement them in a class and use parameter "preinstall_class" for invocation.
   unless  empty($forthewin::spark::preinstall_class) {
-    warning("[${trusted[certname]}] Invoking class ${forthewin::spark::preinstall_class}")
+    if $forthewin::spark::verbose {
+      warning("[${trusted[certname]}] Invoking class ${forthewin::spark::preinstall_class}")
+    }
     include $forthewin::spark::preinstall_class
     Class[$forthewin::spark::preinstall_class] -> Class['forthewin::spark::preinstall']
   }

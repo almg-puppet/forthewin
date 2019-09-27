@@ -1,13 +1,5 @@
 class forthewin::spark::config {
 
-  # If you want to config anything else than property "spark.properties.server",
-  # you can implement it in a class and use parameter "config_class" for invocation.
-  unless  empty($forthewin::spark::config_class) {
-    warning("[${trusted[certname]}] Invoking class ${forthewin::spark::config_class}")
-    include $forthewin::spark::config_class
-    Class[$forthewin::spark::config_class] -> Class['forthewin::spark::config']
-  }
-
   $config_dir  = "${forthewin::params::userprofile}\\Spark"
   $config_file = "${config_dir}\\spark.properties"
   $logged_user = $facts[username]
