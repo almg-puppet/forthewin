@@ -1,7 +1,7 @@
 # Class: forthewin::cdburnerxp
 # ============================
 #
-# Installs PDF Creator: http://www.pdfforge.org/pdfcreator
+# Installs CD BurnerXP: 
 #
 # TODO
 # ----
@@ -52,8 +52,8 @@ class forthewin::cdburnerxp (
     $installer = "${installer_path}\\cdbxp_setup_${v[0]}.${v[1]}.${v[2]}.${v[3]}.exe"
   }
 
-  # Install options
-  $install_options = ['/VERYSILENT', '/NORESTART']
+  # Install options (http://www.jrsoftware.org/ishelp/index.php?topic=setupcmdline)
+  $install_options = ['/VERYSILENT', '/NORESTART', '/MERGETASKS="!desktopicon"']
 
 
   if $verbose {
