@@ -24,7 +24,7 @@ class forthewin::adobereader::install {
   if ((($is_adobereaderdc_installed) and ($managed_version == 'DC')) or (($is_adobereaderxi_installed) and ($managed_version == 'XI'))) {
  	$package_name = "Adobe Reader ${managed_version} (${fullversion})"
 	$source_file = "${forthewin::adobereader::installer_path}\\${forthewin::adobereader::installer_update_filename}"
-	$cmd_line = "c:\Windows\System32\\msiexec.exe /update ${source_file} /qn"
+	$cmd_line = "c:\\Windows\\System32\\msiexec.exe /update ${source_file} /qn"
 
 	
 	if ($managed_version == 'XI') {
