@@ -1,17 +1,13 @@
 class forthewin::thunderbird::config {
 
-  # https://docs.puppet.com/puppet/latest/lang_expressions.html#in
-  # https://forge.puppet.com/puppetlabs/stdlib/readme#grep
-  # https://docs.puppet.com/puppet/latest/function.html#regsubst
-  if /(?i:InstallDirectoryName)/ in $forthewin::thunderbird::installer_args {
-    $dirname = regsubst(grep($forthewin::thunderbird::installer_args, '(?i:InstallDirectoryName)')[0], '\A\W*InstallDirectoryName\W+(.*?)\W*\Z', '\1', 'I')
-  } elsif /(?i:InstallDirectoryPath)/ in $forthewin::thunderbird::installer_args {
+  if /(?i:InstallDirectoryPath)/ in $forthewin::thunderbird::installer_args {
     $thunderbird_home = regsubst(grep($forthewin::thunderbird::installer_args, '(?i:InstallDirectoryPath)')[0], '\A\W*InstallDirectoryPath\W+(.*?)\W*\Z', '\1', 'I')
   } else {
-    $dirname = 'Mozilla Thunderbird'
-  }
-
-  unless $thunderbird_home {
+    if /(?i:InstallDirectoryName)/ in $forthewin::thunderbird::installer_args {
+      $dirname = regsubst(grep($forthewin::thunderbird::installer_args, '(?i:InstallDirectoryName)')[0], '\A\W*InstallDirectoryName\W+(.*?)\W*\Z', '\1', 'I')
+    } else {
+      $dirname = 'Mozilla Thunderbird'
+    }
     $thunderbird_home = sprintf('%s\%s', $forthewin::thunderbird::os ? {'win32' => $forthewin::params::programfiles32, default => $forthewin::params::programfiles}, $dirname)
   }
 
