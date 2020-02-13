@@ -24,7 +24,7 @@ class forthewin::vlc (
   # Note the implicit String to Integer conversion bellow (0 + String).
   # https://docs.puppet.com/puppet/latest/lang_data_number.html#converting-strings-to-numbers
   $v = split($version, '[.]')
-  if (0 + "${v[0]}${v[1]}") >= 22 {
+  if Integer("${v[0]}${v[1]}") >= 22 {
     $displayname = 'VLC media player'
   } else {
     $displayname = "VLC media player ${version}"

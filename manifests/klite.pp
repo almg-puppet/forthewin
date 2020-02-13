@@ -41,7 +41,7 @@ class forthewin::klite (
   }
 
   # Package name
-  $major_version = $v[0] + 0
+  $major_version = Integer($v[0])
   if $major_version < 12 {
     $klite = "K-Lite ${bundle} Codec Pack ${version}"
   } else {
@@ -49,7 +49,7 @@ class forthewin::klite (
   }
 
   # The version is compatible with Windows XP?
-  $okxp = (($plain_version + 0) < 1386)
+  $okxp = (Integer($plain_version) < 1386)
 
   if $verbose {
     info("[${trusted[certname]}] VARIABLES:")
