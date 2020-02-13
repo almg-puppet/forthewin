@@ -1,17 +1,13 @@
 class forthewin::firefox::config {
 
-  # https://docs.puppet.com/puppet/latest/lang_expressions.html#in
-  # https://forge.puppet.com/puppetlabs/stdlib/readme#grep
-  # https://docs.puppet.com/puppet/latest/function.html#regsubst
-  if /(?i:InstallDirectoryName)/ in $forthewin::firefox::installer_args {
-    $dirname = regsubst(grep($forthewin::firefox::installer_args, '(?i:InstallDirectoryName)')[0], '\A\W*InstallDirectoryName\W+(.*?)\W*\Z', '\1', 'I')
-  } elsif /(?i:InstallDirectoryPath)/ in $forthewin::firefox::installer_args {
+  if /(?i:InstallDirectoryPath)/ in $forthewin::firefox::installer_args {
     $firefox_home = regsubst(grep($forthewin::firefox::installer_args, '(?i:InstallDirectoryPath)')[0], '\A\W*InstallDirectoryPath\W+(.*?)\W*\Z', '\1', 'I')
   } else {
-    $dirname = 'Mozilla Firefox'
-  }
-
-  unless $firefox_home {
+    if /(?i:InstallDirectoryName)/ in $forthewin::firefox::installer_args {
+      $dirname = regsubst(grep($forthewin::firefox::installer_args, '(?i:InstallDirectoryName)')[0], '\A\W*InstallDirectoryName\W+(.*?)\W*\Z', '\1', 'I')
+    } else {
+      $dirname = 'Mozilla Firefox'
+    }
     $firefox_home = sprintf('%s\%s', $forthewin::firefox::os ? {'win32' => $forthewin::params::programfiles32, default => $forthewin::params::programfiles}, $dirname)
   }
 

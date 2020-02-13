@@ -5,6 +5,7 @@ class forthewin::essentials2012::install {
 
   # Install options of the resource package
   $common_install_options = ['/SILENT', '/QUIET', '/NoCEIP', '/NoToolbarCEIP', '/NoHomepage', '/NoLaunch', '/NoMU', '/NoSearch']
+
   unless $forthewin::essentials2012::install_all {
 
     # https://forge.puppet.com/puppetlabs/stdlib#join
@@ -36,7 +37,7 @@ class forthewin::essentials2012::install {
   unless $forthewin::params::platform in ['wxp', 'wvista'] {
     package { 'Windows Essentials 2012':
       name            => 'Windows Live Essentials',
-      ensure          => $version,
+      ensure          => $forthewin::essentials2012::version,
       source          => $installer,
       install_options => $install_options,
     }

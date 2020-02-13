@@ -11,9 +11,8 @@ class forthewin::spark::install {
 
   if $forthewin::spark::verbose {
     info("[${trusted[certname]}] VARIABLES:")
-    info("[${trusted[certname]}] install_options = ${install_options}")
-    info("[${trusted[certname]}] installer       = ${installer}")
-    info("[${trusted[certname]}] v               = ${v}")
+    info("[${trusted[certname]}] installer = ${installer}")
+    info("[${trusted[certname]}] v         = ${v}")
   }
 
   package { 'Spark':
