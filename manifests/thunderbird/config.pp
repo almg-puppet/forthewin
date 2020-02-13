@@ -31,11 +31,13 @@ class forthewin::thunderbird::config {
     content => "// ${forthewin::params::default_header}pref(\"general.config.obscure_value\", 0);\r\npref(\"general.config.filename\", \"mozilla.cfg\");\r\n",
   }
 
-  info("[${trusted[certname]}] VARIABLES:")
-  info("[${trusted[certname]}] autoconfig_dst   = ${autoconfig_dst}")
-  info("[${trusted[certname]}] dirname          = ${dirname}")
-  info("[${trusted[certname]}] mozillacfg_dst   = ${mozillacfg_dst}")
-  info("[${trusted[certname]}] mozillacfg_src   = ${mozillacfg_src}")
-  info("[${trusted[certname]}] thunderbird_home = ${thunderbird_home}")
+  if $forthewin::thunderbird::verbose {
+    info("[${trusted[certname]}] VARIABLES:")
+    info("[${trusted[certname]}] autoconfig_dst   = ${autoconfig_dst}")
+    info("[${trusted[certname]}] dirname          = ${dirname}")
+    info("[${trusted[certname]}] mozillacfg_dst   = ${mozillacfg_dst}")
+    info("[${trusted[certname]}] mozillacfg_src   = ${mozillacfg_src}")
+    info("[${trusted[certname]}] thunderbird_home = ${thunderbird_home}")
+  }
 
 }

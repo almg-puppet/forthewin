@@ -28,12 +28,14 @@ class forthewin::thunderbird::install {
     install_options => $install_options,
   }
 
-  info("[${trusted[certname]}] VARIABLES:")
-  info("[${trusted[certname]}] arch            = ${arch}")
-  info("[${trusted[certname]}] install_options = ${install_options}")
-  info("[${trusted[certname]}] installer       = ${installer}")
-  info("[${trusted[certname]}] major           = ${major}")
-  info("[${trusted[certname]}] package_name    = ${package_name}")
-  info("[${trusted[certname]}] package_title   = ${package_title}")
+  if $forthewin::thunderbird::verbose {
+    info("[${trusted[certname]}] VARIABLES:")
+    info("[${trusted[certname]}] arch            = ${arch}")
+    info("[${trusted[certname]}] install_options = ${install_options}")
+    info("[${trusted[certname]}] installer       = ${installer}")
+    info("[${trusted[certname]}] major           = ${major}")
+    info("[${trusted[certname]}] package_name    = ${package_name}")
+    info("[${trusted[certname]}] package_title   = ${package_title}")
+  }
 
 }

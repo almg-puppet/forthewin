@@ -14,27 +14,29 @@ class forthewin::thunderbird (
   Enum['win32', 'win64'] $os = 'win32',
   String $tempdir = $forthewin::params::tempdir,
   Boolean $uninstall_maintenance_service = true,
+  Boolean $verbose = $forthewin::params::verbose,
   Pattern[/\A[0-9]{2,3}[.][0-9]{1,2}(?:[.][0-9]{1,2})?(?:esr)?\Z/] $version
   ) inherits forthewin::params {
 
-  info("[${trusted[certname]}] PARAMETERS:")
-  info("[${trusted[certname]}] config_filename               = ${config_filename}")
-  info("[${trusted[certname]}] config_only                   = ${config_only}")
-  info("[${trusted[certname]}] config_path                   = ${config_path}")
-  info("[${trusted[certname]}] install_only                  = ${install_only}")
-  info("[${trusted[certname]}] installer_args                = ${installer_args}")
-  info("[${trusted[certname]}] installer_filename            = ${installer_filename}")
-  info("[${trusted[certname]}] installer_path                = ${installer_path}")
-  info("[${trusted[certname]}] lang                          = ${lang}")
-  info("[${trusted[certname]}] os                            = ${os}")
-  info("[${trusted[certname]}] tempdir                       = ${tempdir}")
-  info("[${trusted[certname]}] uninstall_maintenance_service = ${uninstall_maintenance_service}")
-  info("[${trusted[certname]}] version                       = ${version}")
-
   $config_ini = "${forthewin::thunderbird::tempdir}\\tb_config.ini"
 
-  info("[${trusted[certname]}] VARIABLES:")
-  info("[${trusted[certname]}] config_ini                    = ${config_ini}")
+  if $verbose {
+    info("[${trusted[certname]}] PARAMETERS:")
+    info("[${trusted[certname]}] config_filename               = ${config_filename}")
+    info("[${trusted[certname]}] config_only                   = ${config_only}")
+    info("[${trusted[certname]}] config_path                   = ${config_path}")
+    info("[${trusted[certname]}] install_only                  = ${install_only}")
+    info("[${trusted[certname]}] installer_args                = ${installer_args}")
+    info("[${trusted[certname]}] installer_filename            = ${installer_filename}")
+    info("[${trusted[certname]}] installer_path                = ${installer_path}")
+    info("[${trusted[certname]}] lang                          = ${lang}")
+    info("[${trusted[certname]}] os                            = ${os}")
+    info("[${trusted[certname]}] tempdir                       = ${tempdir}")
+    info("[${trusted[certname]}] uninstall_maintenance_service = ${uninstall_maintenance_service}")
+    info("[${trusted[certname]}] version                       = ${version}")
+    info("[${trusted[certname]}] VARIABLES:")
+    info("[${trusted[certname]}] config_ini                    = ${config_ini}")
+  }
 
   if $config_only and $install_only {
     fail('Parameters config_only and install_only both set to TRUE - what do you want to do? Just install (install_only=true) or just config (config_only=true)? Default is to install AND config Thunderbird.')
