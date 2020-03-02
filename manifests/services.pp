@@ -8,8 +8,8 @@ class forthewin::services (
   info("[${trusted[certname]}] started_services_enable = ${started_services_enable}")
   info("[${trusted[certname]}] stopped_services_enable = ${stopped_services_enable}")
 
-  $started_services = hiera_array('forthewin::services::started_services')
-  $stopped_services = hiera_array('forthewin::services::stopped_services')
+  $started_services = lookup('forthewin::services::started_services', Array[String], 'unique')
+  $stopped_services = lookup('forthewin::services::stopped_services', Array[String], 'unique')
 
   info("[${trusted[certname]}] started_services        = ${started_services}")
   info("[${trusted[certname]}] stopped_services        = ${stopped_services}")
