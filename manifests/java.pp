@@ -5,6 +5,7 @@ class forthewin::java (
   Boolean $disable_autoupdate = true,
   Array[String] $exceptions_list = [],
   Boolean $install_x86_on_x64 = true,
+  Boolean $install_x86_only = false,
   String $installer_path = "${forthewin::params::repo_basepath}\\java",
   Optional[String] $installer_x86_filename = undef,
   Optional[String] $installer_x64_filename = undef,
@@ -21,6 +22,7 @@ class forthewin::java (
     info("[${trusted[certname]}] disable_autoupdate     = ${disable_autoupdate}")
     info("[${trusted[certname]}] exceptions_list        = ${exceptions_list}")
     info("[${trusted[certname]}] install_x86_on_x64     = ${install_x86_on_x64}")
+    info("[${trusted[certname]}] install_x86_only       = ${install_x86_only}")
     info("[${trusted[certname]}] installer_path         = ${installer_path}")
     info("[${trusted[certname]}] installer_x86_filename = ${installer_x86_filename}")
     info("[${trusted[certname]}] installer_x64_filename = ${installer_x64_filename}")
