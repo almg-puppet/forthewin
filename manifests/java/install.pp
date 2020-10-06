@@ -37,7 +37,7 @@ class forthewin::java::install {
     info("[${trusted[certname]}] version         = ${version}")
   }
 
-  # Installs Java 32-bit
+  # Installs Java 32-bit if Windows x86 or install_x86_on_x64 parameter is set to true
   if $facts[architecture] == 'x86' or $forthewin::java::install_x86_on_x64 {
     package { 'Java 32-bit':
       name            => "Java ${version} Update ${update}",
@@ -47,8 +47,8 @@ class forthewin::java::install {
     }
   }
 
-  # Installs Java 64-bit
-  if $facts[architecture] == 'x64' and !$forthewin::java::install_x86_only {
+  # Installs Java 64-bit if Windows x64
+  if $facts[architecture] == 'x64' {
     package { 'Java 64-bit':
       name            => "Java ${version} Update ${update} (64-bit)",
       ensure          => $forthewin::java::version,
