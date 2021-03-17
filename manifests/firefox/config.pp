@@ -47,12 +47,14 @@ class forthewin::firefox::config {
 
   }
 
-  info("[${trusted[certname]}] VARIABLES:")
-  info("[${trusted[certname]}] autoconfig_dst = ${autoconfig_dst}")
-  info("[${trusted[certname]}] dirname        = ${dirname}")
-  info("[${trusted[certname]}] firefox_home   = ${firefox_home}")
-  info("[${trusted[certname]}] mozillacfg_dst = ${mozillacfg_dst}")
-  info("[${trusted[certname]}] mozillacfg_src = ${mozillacfg_src}")
-  info("[${trusted[certname]}] override_dst   = ${override_dst}")
+  if $forthewin::firefox::verbose {
+    info("[${trusted[certname]}] VARIABLES:")
+    info("[${trusted[certname]}] autoconfig_dst = ${autoconfig_dst}")
+    info("[${trusted[certname]}] dirname        = ${dirname}")
+    info("[${trusted[certname]}] firefox_home   = ${firefox_home}")
+    info("[${trusted[certname]}] mozillacfg_dst = ${mozillacfg_dst}")
+    info("[${trusted[certname]}] mozillacfg_src = ${mozillacfg_src}")
+    info("[${trusted[certname]}] override_dst   = ${override_dst}")
+  }
 
 }

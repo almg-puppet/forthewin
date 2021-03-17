@@ -28,21 +28,23 @@ class forthewin::firefox::install {
     $install_options = ["/INI=${forthewin::firefox::config_ini}"]
   }
 
+  if $forthewin::firefox::verbose {
+    info("[${trusted[certname]}] VARIABLES:")
+    info("[${trusted[certname]}] arch            = ${arch}")
+    info("[${trusted[certname]}] esr             = ${esr}")
+    info("[${trusted[certname]}] install_options = ${install_options}")
+    info("[${trusted[certname]}] installer       = ${installer}")
+    info("[${trusted[certname]}] major           = ${major}")
+    info("[${trusted[certname]}] package_name    = ${package_name}")
+    info("[${trusted[certname]}] package_title   = ${package_title}")
+    info("[${trusted[certname]}] version         = ${version}")
+  }
+
   package { $package_title:
     name            => $package_name,
     ensure          => $version,
     source          => $installer,
     install_options => $install_options,
   }
-
-  info("[${trusted[certname]}] VARIABLES:")
-  info("[${trusted[certname]}] arch            = ${arch}")
-  info("[${trusted[certname]}] esr             = ${esr}")
-  info("[${trusted[certname]}] install_options = ${install_options}")
-  info("[${trusted[certname]}] installer       = ${installer}")
-  info("[${trusted[certname]}] major           = ${major}")
-  info("[${trusted[certname]}] package_name    = ${package_name}")
-  info("[${trusted[certname]}] package_title   = ${package_title}")
-  info("[${trusted[certname]}] version         = ${version}")
 
 }
