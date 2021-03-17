@@ -2,7 +2,6 @@ class forthewin::spark (
   Optional[String] $custom_class = undef,
   Optional[String] $installer_filename = undef,
   String $installer_path = "${forthewin::params::repo_basepath}\\spark",
-  Optional[String] $preinstall_class = undef,
   String $server = "openfire.${facts[domain]}",
   Optional[String] $startonstartup = undef,
   Boolean $verbose = $forthewin::params::verbose,
@@ -14,7 +13,6 @@ class forthewin::spark (
     info("[${trusted[certname]}] custom_class       = ${custom_class}")
     info("[${trusted[certname]}] installer_filename = ${installer_filename}")
     info("[${trusted[certname]}] installer_path     = ${installer_path}")
-    info("[${trusted[certname]}] preinstall_class   = ${preinstall_class}")
     info("[${trusted[certname]}] server             = ${server}")
     info("[${trusted[certname]}] startonstartup     = ${startonstartup}")
     info("[${trusted[certname]}] verbose            = ${verbose}")
