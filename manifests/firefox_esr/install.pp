@@ -15,17 +15,16 @@ class forthewin::firefox_esr::install {
   } else {
     # If not informed by parameter, the source path structure should mimics Mozilla's Firefox repository at
     # https://ftp.mozilla.org/pub/firefox/releases/
-    $installer = "${forthewin::firefox_esr::installer_path}\\${forthewin::firefox_esr::version}\\${forthewin::firefox_esr::path_arch}\\${forthewin::firefox_esr::lang}\\Firefox Setup ${forthewin::firefox_esr::version}.exe"
+    $installer = "${forthewin::firefox_esr::installer_path}\\${forthewin::firefox_esr::version}\\${forthewin::firefox_esr::path_arch}\\${forthewin::firefox_esr::lang}\\Firefox Setup ${forthewin::firefox_esr::version}.msi"
   }
 
   # Map install options
-  $parameterized_options = [
+  $install_options = [
     sprintf('DESKTOP_SHORTCUT=%s', $forthewin::firefox_esr::opt_desktop_shortcut),
     sprintf('INSTALL_MAINTENANCE_SERVICE=%s', $forthewin::firefox_esr::opt_install_maintenance_service),
     sprintf('START_MENU_SHORTCUT=%s', $forthewin::firefox_esr::opt_start_menu_shortcut),
     sprintf('TASKBAR_SHORTCUT=%s', $forthewin::firefox_esr::opt_taskbar_shortcut)
   ]
-  $install_options = join($parameterized_options, ' ')
 
   if $forthewin::firefox_esr::verbose {
     info("[${trusted[certname]}] VARIABLES:")
