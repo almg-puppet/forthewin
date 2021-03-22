@@ -35,7 +35,7 @@ class forthewin::spark (
   # Class['custom::spark'] -> Class['forthewin::spark::config']
   unless empty($custom_class) {
     if $verbose {
-      warning("[${trusted[certname]}] Invoking class ${custom_class}")
+      notice("[${trusted[certname]}] Invoking class ${custom_class}")
     }
     contain $custom_class
   }

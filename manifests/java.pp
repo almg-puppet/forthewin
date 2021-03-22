@@ -46,7 +46,7 @@ class forthewin::java (
   # Class['custom::java'] -> Class['forthewin::java::config']
   unless empty($custom_class) {
     if $verbose {
-      warning("[${trusted[certname]}] Invoking class ${custom_class}")
+      notice("[${trusted[certname]}] Invoking class ${custom_class}")
     }
     contain $custom_class
   }
