@@ -6,7 +6,7 @@ class forthewin::spark::preinstall {
   # you can implement them in a class and use parameter "preinstall_class" for invocation.
   unless  empty($forthewin::spark::preinstall_class) {
     if $forthewin::spark::verbose {
-      warning("[${trusted[certname]}] Invoking class ${forthewin::spark::preinstall_class}")
+      notice("[${trusted[certname]}] Invoking class ${forthewin::spark::preinstall_class}")
     }
     include $forthewin::spark::preinstall_class
     Class[$forthewin::spark::preinstall_class] -> Class['forthewin::spark::preinstall']
