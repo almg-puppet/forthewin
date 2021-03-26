@@ -2,6 +2,7 @@ class forthewin::firefox_esr (
   String $config_filename = 'policies.json',
   Boolean $config_only = false,
   Optional[String] $config_path = undef,
+  Boolean $crashreporter_disable = true,
   Optional[String] $custom_class = undef,
   Enum['auto', 'win32', 'win64'] $installer_arch = 'auto',
   Optional[String] $installer_filename = undef,
@@ -31,6 +32,7 @@ class forthewin::firefox_esr (
     info("[${trusted[certname]}] config_filename                 = ${config_filename}")
     info("[${trusted[certname]}] config_only                     = ${config_only}")
     info("[${trusted[certname]}] config_path                     = ${config_path}")
+    info("[${trusted[certname]}] crashreporter_disable           = ${crashreporter_disable}")
     info("[${trusted[certname]}] custom_class                    = ${custom_class}")
     info("[${trusted[certname]}] installer_arch                  = ${installer_arch}")
     info("[${trusted[certname]}] installer_filename              = ${installer_filename}")
