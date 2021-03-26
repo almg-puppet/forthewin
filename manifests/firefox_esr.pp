@@ -6,6 +6,7 @@ class forthewin::firefox_esr (
   Enum['auto', 'win32', 'win64'] $installer_arch = 'auto',
   Optional[String] $installer_filename = undef,
   String $installer_path = "${forthewin::params::repo_basepath}\\firefox",
+  Boolean $legacy_profiles = false,
   Boolean $opt_desktop_shortcut = true,
   Boolean $opt_install_maintenance_service = false,
   Boolean $opt_start_menu_shortcut = true,
@@ -34,6 +35,7 @@ class forthewin::firefox_esr (
     info("[${trusted[certname]}] installer_arch                  = ${installer_arch}")
     info("[${trusted[certname]}] installer_filename              = ${installer_filename}")
     info("[${trusted[certname]}] installer_path                  = ${installer_path}")
+    info("[${trusted[certname]}] legacy_profiles                 = ${legacy_profiles}")
     info("[${trusted[certname]}] opt_desktop_shortcut            = ${opt_desktop_shortcut}")
     info("[${trusted[certname]}] opt_install_maintenance_service = ${opt_install_maintenance_service}")
     info("[${trusted[certname]}] opt_start_menu_shortcut         = ${opt_start_menu_shortcut}")
