@@ -8,7 +8,6 @@ class forthewin::firefox_esr::config {
   }
   $policies_home = "${forthewin::firefox_esr::firefox_home}\\distribution"
   $policies_dst = "${policies_home}\\policies.json"
-  
 
   if $forthewin::firefox_esr::verbose {
     info("[${trusted[certname]}] VARIABLES:")
@@ -17,6 +16,8 @@ class forthewin::firefox_esr::config {
     info("[${trusted[certname]}] policies_src  = ${policies_src}")
   }
 
+  # Creates policies.json
+  # https://github.com/mozilla/policy-templates
   file { $policies_home:
     ensure => directory
   }
@@ -24,6 +25,19 @@ class forthewin::firefox_esr::config {
   file { $policies_dst:
     ensure => file,
     source => $policies_src
+  }
+
+  # Enable/Disable Crash Reporter
+  # https://firefox-source-docs.mozilla.org/toolkit/crashreporter/crashreporter/index.html
+  if $forthewin::firefox_esr::crashreporter_disable {
+    windows_env { 'MOZ_CRASHREPORTER_DISABLE=1':
+      mergemode => clobber
+    }
+  } else {
+    windows_env { 'MOZ_CRASHREPORTER_DISABLE':
+      ensure    => absent,
+      mergemode => clobber,
+    }
   }
 
 }
