@@ -7,6 +7,7 @@ class forthewin::firefox_esr (
   Enum['auto', 'win32', 'win64'] $installer_arch = 'auto',
   Optional[String] $installer_filename = undef,
   String $installer_path = "${forthewin::params::repo_basepath}\\firefox",
+  Pattern[/\A[a-z]{2,3}(?:-[A-Z]{2})?\Z/] $lang = $forthewin::params::lang,
   Boolean $legacy_profiles = false,
   Boolean $opt_desktop_shortcut = true,
   Boolean $opt_install_maintenance_service = false,
@@ -26,7 +27,7 @@ class forthewin::firefox_esr (
   } else {
     $error = false
   }
-  
+
   if $verbose {
     info("[${trusted[certname]}] PARAMETERS:")
     info("[${trusted[certname]}] config_filename                 = ${config_filename}")
@@ -37,12 +38,12 @@ class forthewin::firefox_esr (
     info("[${trusted[certname]}] installer_arch                  = ${installer_arch}")
     info("[${trusted[certname]}] installer_filename              = ${installer_filename}")
     info("[${trusted[certname]}] installer_path                  = ${installer_path}")
+    info("[${trusted[certname]}] lang                            = ${lang}")
     info("[${trusted[certname]}] legacy_profiles                 = ${legacy_profiles}")
     info("[${trusted[certname]}] opt_desktop_shortcut            = ${opt_desktop_shortcut}")
     info("[${trusted[certname]}] opt_install_maintenance_service = ${opt_install_maintenance_service}")
     info("[${trusted[certname]}] opt_start_menu_shortcut         = ${opt_start_menu_shortcut}")
     info("[${trusted[certname]}] opt_taskbar_shortcut            = ${opt_taskbar_shortcut}")
-    info("[${trusted[certname]}] verbose                         = ${verbose}")
     info("[${trusted[certname]}] version                         = ${version}")
   }
 
@@ -85,7 +86,7 @@ class forthewin::firefox_esr (
       }
       contain $custom_class
     }
-    
+
   }
 
 }
