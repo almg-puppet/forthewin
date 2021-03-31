@@ -6,14 +6,22 @@ class forthewin::firefox_esr::config {
   } else {
     $policies_src = "${forthewin::firefox_esr::installer_path}\\${forthewin::firefox_esr::version}\\${forthewin::firefox_esr::config_filename}"
   }
+
+  if $policies_src =~ /^puppet:/ {
+    $policies_src_slashed = regsubst($policies_src, '\\\\', '/', 'G')
+  } else {
+    $policies_src_slashed = $policies_src
+  }
+
   $policies_home = "${forthewin::firefox_esr::firefox_home}\\distribution"
   $policies_dst = "${policies_home}\\policies.json"
 
   if $forthewin::firefox_esr::verbose {
     info("[${trusted[certname]}] VARIABLES:")
-    info("[${trusted[certname]}] policies_dst  = ${policies_dst}")
-    info("[${trusted[certname]}] policies_home = ${policies_home}")
-    info("[${trusted[certname]}] policies_src  = ${policies_src}")
+    info("[${trusted[certname]}] policies_dst         = ${policies_dst}")
+    info("[${trusted[certname]}] policies_home        = ${policies_home}")
+    info("[${trusted[certname]}] policies_src         = ${policies_src}")
+    info("[${trusted[certname]}] policies_src_slashed = ${policies_src_slashed}")
   }
 
   # Creates policies.json
@@ -24,7 +32,7 @@ class forthewin::firefox_esr::config {
   ->
   file { $policies_dst:
     ensure => file,
-    source => $policies_src
+    source => $policies_src_slashed
   }
 
   # Enable/Disable Crash Reporter
