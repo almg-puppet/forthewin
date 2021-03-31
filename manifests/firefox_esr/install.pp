@@ -44,4 +44,13 @@ class forthewin::firefox_esr::install {
     install_options => $install_options,
   }
 
+  # Uninstall Mozilla Maintenance Service, just in case
+  unless $forthewin::firefox_esr::opt_install_maintenance_service {
+    package { 'Mozilla Maintenance Service':
+      ensure            => absent,
+      require           => Package[$package_title],
+      uninstall_options => ['/S'],
+    }
+  }
+
 }
