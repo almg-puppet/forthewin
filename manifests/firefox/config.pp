@@ -36,11 +36,13 @@ class forthewin::firefox::config {
     $mozillacfg_dst = "${firefox_home}\\mozilla.cfg"
 
     file { $mozillacfg_dst:
+      backup => false,
       ensure => file,
       source => $mozillacfg_src,
     }
     ->
     file { $autoconfig_dst:
+      backup => false,
       ensure => file,
       content => "// ${forthewin::params::default_header}pref(\"general.config.obscure_value\", 0);\r\npref(\"general.config.filename\", \"mozilla.cfg\");\r\n",
     }
