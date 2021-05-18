@@ -14,11 +14,18 @@ class forthewin::adobereader::install {
 	}
   }
 
+	# Set varibles based on existing facts
+    $is_adobereaderdc_installed = $facts[is_adobereaderdc_installed]
+    $is_adobereaderxi_installed = $facts[is_adobereaderxi_installed]
+
+
   if $forthewin::adobereader::verbose {
     info("[${trusted[certname]}] VARIABLES:")
     info("[${trusted[certname]}] installer		   = ${installer}")
     info("[${trusted[certname]}] managed_version   = ${managed_version}")
     info("[${trusted[certname]}] Version           = ${fullversion}")
+	info("[${trusted[certname]}] is_adobereaderdc_installed           = ${is_adobereaderdc_installed}")
+	info("[${trusted[certname]}] is_adobereaderxi_installed           = ${is_adobereaderxi_installed}")
   }
 
   if ((($is_adobereaderdc_installed) and ($managed_version == 'DC')) or (($is_adobereaderxi_installed) and ($managed_version == 'XI'))) {
