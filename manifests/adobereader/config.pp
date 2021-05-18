@@ -6,7 +6,7 @@ class forthewin::adobereader::config {
 
 scheduled_task { "Adobe Acrobat Update Task":
     enabled => false,
-    command => "C:\Program Files (x86)\Common Files\Adobe\ARM\1.0\AdobeARM.exe",
+    command => "C:\\Program Files (x86)\\Common Files\\Adobe\\ARM\\1.0\\AdobeARM.exe",
     trigger   => [{
 		schedule   => 'daily',       
 		start_time => '13:00',       
