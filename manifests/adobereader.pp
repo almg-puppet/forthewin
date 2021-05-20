@@ -20,5 +20,7 @@ class forthewin::adobereader (
 
   # https://docs.puppet.com/puppet/latest/lang_containment.html
   contain forthewin::adobereader::install
+  contain forthewin::adobereader::config
+  Class['forthewin::adobereader::install'] -> Class['forthewin::adobereader::config']
 
 }
