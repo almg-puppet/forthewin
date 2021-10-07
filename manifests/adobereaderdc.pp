@@ -55,7 +55,7 @@ class forthewin::adobereaderdc (
 
   if $is_adobereaderdc_installed {
 
-    if $update_version > $adobereaderdc_version {
+    if versioncmp($update_version, $adobereaderdc_version) == 1 {
 
       $exec_title = "Adobe Reader ${product} ${update_version}"
       $exec_command = "C:\\Windows\\System32\\msiexec.exe /update ${update_installer} /qn"
