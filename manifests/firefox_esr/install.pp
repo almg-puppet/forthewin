@@ -3,7 +3,11 @@ class forthewin::firefox_esr::install {
   # Assembles Package Name
   $arch = $forthewin::firefox_esr::path_arch ? {'win32' => 'x86', default => 'x64'}
   $version = delete($forthewin::firefox_esr::version, 'esr')
-  $package_name = "Mozilla Firefox ${version} ESR (${arch} ${forthewin::firefox_esr::lang})"
+  if versioncmp($version, '78.12.0') >= 0 {
+    $package_name = "Mozilla Firefox ESR (${arch} ${forthewin::firefox_esr::lang})"
+  } else {
+    $package_name = "Mozilla Firefox ${version} ESR (${arch} ${forthewin::firefox_esr::lang})"
+  }
 
   # Assembles Package Title
   $major = split($version, '[.]')[0]
