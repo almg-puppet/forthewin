@@ -6,7 +6,7 @@ class forthewin::spark (
   String $server = "openfire.${facts[domain]}",
   Optional[String] $startonstartup = undef,
   Boolean $verbose = $forthewin::params::verbose,
-  Pattern[/\A[0-9]+[.][0-9]+[.][0-9]+[.][0-9]+\Z/] $version,
+  Pattern[/\A[0-9]+[.][0-9]+[.][0-9]+([.][0-9]+)?\Z/] $version,
   ) inherits forthewin::params {
 
   if $verbose {

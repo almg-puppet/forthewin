@@ -29,16 +29,28 @@ class forthewin::spark::config {
       replace => true,
     }
 
-    if ($forthewin::spark::startonstartup) {
+    if $forthewin::spark::startonstartup {
         file_line { 'spark.properties.startonstartup':
             ensure  => present,
             line    => "startOnStartup=${forthewin::spark::startonstartup}",
             match   => '^startOnStartup\=',
             path    => $config_file,
             replace => true,
+            before  => File_line['spark.properties.server']
         }
     }
-
+    
+    if versioncmp($forthewin::spark::version, '2.9.4') >= 0 {
+      file_line { 'spark.properties.checkCRL':
+          ensure  => present,
+          line    => 'checkCRL=false',
+          match   => '^checkCRL\=',
+          path    => $config_file,
+          replace => true,
+          before  => File_line['spark.properties.server']
+      }
+    }
+    
   }
 
 }
