@@ -49,6 +49,14 @@ class forthewin::spark::config {
           replace => true,
           before  => File_line['spark.properties.server']
       }
+	  file_line { 'spark.properties.deactPlugins':
+          ensure  => present,
+          line    => 'deactivatedPlugins=Reversi,TicTacToe',
+          match   => '^deactivatedPlugins\=',
+          path    => $config_file,
+          replace => true,
+          before  => File_line['spark.properties.server']
+      }
     }
     
   }
