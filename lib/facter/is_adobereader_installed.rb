@@ -55,3 +55,32 @@ Facter.add("adobereaderdc_version") do
     version
   end
 end
+
+Facter.add("is_adobeacrobatdc_installed") do
+  confine :os do |os|
+    os['name'] == 'windows'
+  end
+  setcode do
+    if File.file?('C:\Program Files\Adobe\Acrobat DC\Acrobat\Acrobat.exe')
+        true
+    else
+        false
+    end
+  end
+end
+
+Facter.add("adobeacrobatdc_version") do
+  confine :os do |os|
+    os['name'] == 'windows'
+  end
+  setcode do
+    version = '0.0.0'
+    if Facter.value(:is_adobeacrobatdc_installed)
+      reg = `reg query "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Installer\\UserData\\S-1-5-18\\Products\\68AB67CA640133017706CB5110E47A00\\InstallProperties" /v DisplayVersion | find /i "displayversion"`
+      if !reg.empty?
+        version = reg.split()[2]
+      end
+    end
+    version
+  end
+end

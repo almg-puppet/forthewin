@@ -26,7 +26,9 @@ class forthewin::adobereaderdc (
 
 	# Set varibles based on existing facts
   $is_adobereaderdc_installed = $facts[is_adobereaderdc_installed]
+  $is_adobeacrobatdc_installed = $facts[is_adobeacrobatdc_installed]
   $adobereaderdc_version = $facts[adobereaderdc_version]
+  $adobeacrobatdc_version = $facts[adobeacrobatdc_version]
 
   # Set base installer path
   if $base_filename {
@@ -44,50 +46,56 @@ class forthewin::adobereaderdc (
 
   if $verbose {
     info("[${trusted[certname]}] VARIABLES:")
-    info("[${trusted[certname]}] is_adobereaderdc_installed = ${is_adobereaderdc_installed}")
-    info("[${trusted[certname]}] adobereaderdc_version      = ${adobereaderdc_version}")
-    info("[${trusted[certname]}] flat_base_version          = ${flat_base_version}")
-    info("[${trusted[certname]}] base_installer             = ${base_installer}")
-    info("[${trusted[certname]}] flat_update_version        = ${flat_update_version}")
-    info("[${trusted[certname]}] update_installer           = ${update_installer}")
-    info("[${trusted[certname]}] product                    = ${product}")
+    info("[${trusted[certname]}] is_adobereaderdc_installed  = ${is_adobereaderdc_installed}")
+    info("[${trusted[certname]}] adobereaderdc_version       = ${adobereaderdc_version}")
+    info("[${trusted[certname]}] is_adobeacrobatdc_installed = ${is_adobeacrobatdc_installed}")
+    info("[${trusted[certname]}] adobeacrobatdc_version      = ${adobeacrobatdc_version}")
+    info("[${trusted[certname]}] flat_base_version           = ${flat_base_version}")
+    info("[${trusted[certname]}] base_installer              = ${base_installer}")
+    info("[${trusted[certname]}] flat_update_version         = ${flat_update_version}")
+    info("[${trusted[certname]}] update_installer            = ${update_installer}")
+    info("[${trusted[certname]}] product                     = ${product}")
   }
 
-  if $is_adobereaderdc_installed {
+  unless $is_adobeacrobatdc_installed {
 
-    if versioncmp($update_version, $adobereaderdc_version) == 1 {
+    if $is_adobereaderdc_installed {
 
-      $exec_title = "Adobe Reader ${product} ${update_version}"
-      $exec_command = "C:\\Windows\\System32\\msiexec.exe /update ${update_installer} /qn"
+      if versioncmp($update_version, $adobereaderdc_version) == 1 {
+
+        $exec_title = "Adobe Reader ${product} ${update_version}"
+        $exec_command = "C:\\Windows\\System32\\msiexec.exe /update ${update_installer} /qn"
+
+        if $verbose {
+          info("[${trusted[certname]}] exec_title   = ${exec_title}")
+          info("[${trusted[certname]}] exec_command = ${exec_command}")
+        }
+
+        exec { $exec_title:
+          command => $exec_command,
+        }
+
+      }
+
+    } else {
+
+      $language = $lang ? {'pt_BR' => ' - Português', default => ''}
+      $package_title = "Adobe Reader ${product} ${base_version}"
+      $package_name = "Adobe Reader ${product}${language}"
 
       if $verbose {
-        info("[${trusted[certname]}] exec_title   = ${exec_title}")
-        info("[${trusted[certname]}] exec_command = ${exec_command}")
+        info("[${trusted[certname]}] language      = ${language}")
+        info("[${trusted[certname]}] package_title = ${package_title}")
+        info("[${trusted[certname]}] package_name  = ${package_name}")
       }
 
-      exec { $exec_title:
-        command => $exec_command,
+      package { $package_title:
+        name            => $package_name,
+        ensure          => present,
+        source          => $base_installer,
+        install_options => ['/sAll']
       }
 
-    }
-
-  } else {
-
-    $language = $lang ? {'pt_BR' => ' - Português', default => ''}
-    $package_title = "Adobe Reader ${product} ${base_version}"
-    $package_name = "Adobe Reader ${product}${language}"
-
-    if $verbose {
-      info("[${trusted[certname]}] language      = ${language}")
-      info("[${trusted[certname]}] package_title = ${package_title}")
-      info("[${trusted[certname]}] package_name  = ${package_name}")
-    }
-
-    package { $package_title:
-      name            => $package_name,
-      ensure          => present,
-      source          => $base_installer,
-      install_options => ['/sAll']
     }
 
   }
