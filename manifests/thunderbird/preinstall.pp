@@ -10,14 +10,4 @@ class forthewin::thunderbird::preinstall {
     }
   }
 
-  if $forthewin::thunderbird::uninstall_maintenance_service {
-    if $forthewin::thunderbird::verbose {
-      info("[${trusted[certname]}] Will uninstall Mozilla Maintenance Service")
-    }
-    package { 'Mozilla Maintenance Service':
-      ensure            => absent,
-      uninstall_options => ['/S'],
-    }
-  }
-
 }

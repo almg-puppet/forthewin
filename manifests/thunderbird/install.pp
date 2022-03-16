@@ -25,7 +25,6 @@ class forthewin::thunderbird::install {
   # Map install options
   $install_options = [
     sprintf('DESKTOP_SHORTCUT=%s', $forthewin::thunderbird::opt_desktop_shortcut),
-    sprintf('INSTALL_MAINTENANCE_SERVICE=%s', $forthewin::thunderbird::opt_install_maintenance_service),
     sprintf('START_MENU_SHORTCUT=%s', $forthewin::thunderbird::opt_start_menu_shortcut),
     sprintf('TASKBAR_SHORTCUT=%s', $forthewin::thunderbird::opt_taskbar_shortcut)
   ]
@@ -46,15 +45,6 @@ class forthewin::thunderbird::install {
     ensure          => $version,
     source          => $installer,
     install_options => $install_options,
-  }
-
-  # Uninstall Mozilla Maintenance Service, just in case
-  unless $forthewin::thunderbird::opt_install_maintenance_service {
-    package { 'Mozilla Maintenance Service':
-      ensure            => absent,
-      require           => Package[$package_title],
-      uninstall_options => ['/S'],
-    }
   }
 
 }

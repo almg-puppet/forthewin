@@ -5,9 +5,12 @@ class forthewin::thunderbird (
   Boolean $crashreporter_disable = true,
   Optional[String] $custom_class = undef,
   Enum['auto', 'win32', 'win64'] $installer_arch = 'auto',
+  # https://wiki.mozilla.org/Installer:Command_Line_Arguments
+  Array[String] $installer_args = [],
   Optional[String] $installer_filename = undef,
   String $installer_path = "${forthewin::params::repo_basepath}\\thunderbird",
   Pattern[/\A[a-z]{2,3}(?:-[A-Z]{2})?\Z/] $lang = $forthewin::params::lang,
+  Enum['win32', 'win64'] $os = 'win64',
   Boolean $legacy_profiles = false,
   Boolean $opt_desktop_shortcut = true,
   Boolean $opt_install_maintenance_service = false,
@@ -16,6 +19,8 @@ class forthewin::thunderbird (
   Boolean $verbose = $forthewin::params::verbose,
   Pattern[/\A[0-9]{,3}[.][0-9]{,2}(?:[.][0-9])?\Z/] $version
   ) inherits forthewin::params {
+  
+  $config_ini = "${forthewin::thunderbird::tempdir}\\tb_config.ini"
 
   # fail() interrupts the whole execution, err() does not.
   if $installer_arch == 'auto' and $installer_filename {
