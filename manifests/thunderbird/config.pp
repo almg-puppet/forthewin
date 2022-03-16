@@ -30,6 +30,17 @@ class forthewin::thunderbird::config {
     ensure => file,
     content => "// ${forthewin::params::default_header}pref(\"general.config.obscure_value\", 0);\r\npref(\"general.config.filename\", \"mozilla.cfg\");\r\n",
   }
+  
+    # Disable Autoconfig (Versions 72+)
+	registry_key { 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Mozilla\Thunderbird':
+      ensure => present,
+    }
+	->
+    registry::value { 'DisableAppUpdate':
+      key  => 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Mozilla\Thunderbird',
+      data => '00000001',
+      type => 'dword',
+    }
 
   if $forthewin::thunderbird::verbose {
     info("[${trusted[certname]}] VARIABLES:")
