@@ -43,7 +43,7 @@ class forthewin::thunderbird_legacy (
   }
 
   unless $install_only {
-    contain forthewin::thunderbird::config
+    contain forthewin::thunderbird_legacy::config
   }
 
   unless $config_only {
