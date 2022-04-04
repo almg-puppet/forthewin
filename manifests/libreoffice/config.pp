@@ -5,10 +5,12 @@ class forthewin::libreoffice::config {
   $canvas  = "${basereg}\\org.openoffice.Office.Canvas"
   $common  = "${basereg}\\org.openoffice.Office.Common"
 
-  info("[${trusted[certname]}] VARIABLES:")
-  info("[${trusted[certname]}] basereg = ${basereg}")
-  info("[${trusted[certname]}] canvas  = ${canvas}")
-  info("[${trusted[certname]}] common  = ${common}")
+  if $forthewin::libreoffice::verbose {
+    info("[${trusted[certname]}] VARIABLES:")
+    info("[${trusted[certname]}] basereg = ${basereg}")
+    info("[${trusted[certname]}] canvas  = ${canvas}")
+    info("[${trusted[certname]}] common  = ${common}")
+  }
 
   if $forthewin::libreoffice::disable_opengl {
 

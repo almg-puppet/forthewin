@@ -38,15 +38,17 @@ class forthewin::libreoffice::install {
   ]
   $install_options = delete(concat($forthewin::libreoffice::install_options, $parameterized_options), 'REMOVE=')
 
-  info("[${trusted[certname]}] VARIABLES:")
-  info("[${trusted[certname]}] v                     = ${v}")
-  info("[${trusted[certname]}] full_version          = ${full_version}")
-  info("[${trusted[certname]}] short_version         = ${short_version}")
-  info("[${trusted[certname]}] parameterized_options = ${parameterized_options}")
-  info("[${trusted[certname]}] install_options       = ${install_options}")
-  info("[${trusted[certname]}] installer_x86         = ${installer_x86}")
-  info("[${trusted[certname]}] installer_x64         = ${installer_x64}")
-  info("[${trusted[certname]}] installer             = ${installer}")
+  if $forthewin::libreoffice::verbose {
+    info("[${trusted[certname]}] VARIABLES:")
+    info("[${trusted[certname]}] v                     = ${v}")
+    info("[${trusted[certname]}] full_version          = ${full_version}")
+    info("[${trusted[certname]}] short_version         = ${short_version}")
+    info("[${trusted[certname]}] parameterized_options = ${parameterized_options}")
+    info("[${trusted[certname]}] install_options       = ${install_options}")
+    info("[${trusted[certname]}] installer_x86         = ${installer_x86}")
+    info("[${trusted[certname]}] installer_x64         = ${installer_x64}")
+    info("[${trusted[certname]}] installer             = ${installer}")
+  }
 
   package { "LibreOffice ${v[0]}.x":
     name            => "LibreOffice ${full_version}",

@@ -33,14 +33,16 @@ class forthewin::libreoffice::help {
     }
   }
 
-  info("[${trusted[certname]}] VARIABLES:")
-  info("[${trusted[certname]}] v               = ${v}")
-  info("[${trusted[certname]}] full_version    = ${full_version}")
-  info("[${trusted[certname]}] short_version   = ${short_version}")
-  info("[${trusted[certname]}] shorter_version = ${shorter_version}")
-  info("[${trusted[certname]}] installer_x86   = ${installer_x86}")
-  info("[${trusted[certname]}] installer_x64   = ${installer_x64}")
-  info("[${trusted[certname]}] installer       = ${installer}")
+  if $forthewin::libreoffice::verbose {
+    info("[${trusted[certname]}] VARIABLES:")
+    info("[${trusted[certname]}] v               = ${v}")
+    info("[${trusted[certname]}] full_version    = ${full_version}")
+    info("[${trusted[certname]}] short_version   = ${short_version}")
+    info("[${trusted[certname]}] shorter_version = ${shorter_version}")
+    info("[${trusted[certname]}] installer_x86   = ${installer_x86}")
+    info("[${trusted[certname]}] installer_x64   = ${installer_x64}")
+    info("[${trusted[certname]}] installer       = ${installer}")
+  }
 
   package { 'LibreOffice Help Pack':
     name            => "LibreOffice ${shorter_version} Help Pack (${forthewin::libreoffice::help_pack_lang_name})",
