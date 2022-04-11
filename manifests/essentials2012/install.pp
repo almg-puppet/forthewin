@@ -27,11 +27,13 @@ class forthewin::essentials2012::install {
 
   }
 
-  info('VARIABLES:')
-  info("appselect = ${appselect}")
-  info("common_install_options = ${common_install_options}")
-  info("installer = ${installer}")
-  info("install_options = ${install_options}")
+  if $forthewin::essentials2012::verbose {
+    info("[${trusted[certname]}] VARIABLES:")
+    info("[${trusted[certname]}] appselect              = ${appselect}")
+    info("[${trusted[certname]}] common_install_options = ${common_install_options}")
+    info("[${trusted[certname]}] installer              = ${installer}")
+    info("[${trusted[certname]}] install_options        = ${install_options}")
+  }
 
   # No Essentials 2012 for Windows XP and Windows Vista
   unless $forthewin::params::platform in ['wxp', 'wvista'] {
