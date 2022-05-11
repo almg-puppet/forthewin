@@ -25,7 +25,7 @@ class forthewin::libreoffice7::config (
     info("[${trusted[certname]}] oo_drawing_engine      = ${oo_drawing_engine}")
     info("[${trusted[certname]}] oo_writer              = ${oo_writer}")
     info("[${trusted[certname]}] proxy_final            = ${proxy_final}")
-    info("[${trusted[certname]}] proxy_type            = ${proxy_type}")
+    info("[${trusted[certname]}] proxy_type             = ${proxy_type}")
     info("[${trusted[certname]}] use_hw_accel           = ${use_hw_accel}")
     info("[${trusted[certname]}] use_skia               = ${use_skia}")
     info("[${trusted[certname]}] VARIABLES:")
@@ -56,7 +56,46 @@ class forthewin::libreoffice7::config (
     data  => 'false',
     type  => 'string',
   }
+  ->
+  registry::value { "DisableOpenGL":
+    key   => "${common}\\VCL\\DisableOpenGL",
+    value => 'Value',
+    data  => 'true',
+    type  => 'string',
+  }
 
+  # Set Cache
+  registry::value { "Writer.OLE_Objects":
+    key   => "${common}\\Cache\\Writer\\OLE_Objects",
+    value => 'Value',
+    data  => String($oo_writer),
+    type  => 'string',
+  }
+  registry::value { "DrawingEngine.OLE_Objects":
+    key   => "${common}\\Cache\\DrawingEngine\\OLE_Objects",
+    value => 'Value',
+    data  => String($oo_drawing_engine),
+    type  => 'string',
+  }
+  registry::value { "TotalCacheSize":
+    key   => "${common}\\Cache\\GraphicManager\\TotalCacheSize",
+    value => 'Value',
+    data  => String($gm_total_cache_size),
+    type  => 'string',
+  }
+  registry::value { "ObjectCacheSize":
+    key   => "${common}\\Cache\\GraphicManager\\ObjectCacheSize",
+    value => 'Value',
+    data  => String($gm_object_cache_size),
+    type  => 'string',
+  }
+  registry::value { "ObjectReleaseTime":
+    key   => "${common}\\Cache\\GraphicManager\\ObjectReleaseTime",
+    value => 'Value',
+    data  => String($gm_object_release_time),
+    type  => 'string',
+  }  
+  
   # Enable/disable hardware graphics acceleration
   registry::value { "ForceSafeServiceImpl":
     key   => "${canvas}\\ForceSafeServiceImpl",
@@ -69,7 +108,7 @@ class forthewin::libreoffice7::config (
   registry::value { "ooInetProxyType.Value":
     key   => "${inet}\\Settings\\ooInetProxyType",
     value => 'Value',
-    data  => $proxy_type,
+    data  => $proxy_type ? {'none' => '0', 'system' => '1', default => '1'},
     type  => 'string',
   }
   ->
@@ -80,6 +119,5 @@ class forthewin::libreoffice7::config (
     type  => 'dword',
   }
 
-  # Set Cache
 
 }
