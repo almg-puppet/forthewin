@@ -43,7 +43,7 @@ class forthewin::eclipse_jdk (
   }
 
   # Install options
-  $install_options = ["/qn"]
+  $install_options = ["/qn" , "ADDLOCAL=FeatureMain,FeatureEnvironment,FeatureJarFileRunWith,FeatureJavaHome,FeatureOracleJavaSoft"]
 
   $package_name = "Eclipse Temurin JDK with Hotspot ${package_version}"
 
