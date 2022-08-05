@@ -1,9 +1,10 @@
 # https://wiki.documentfoundation.org/Deployment_and_Migration
 class forthewin::libreoffice7::config (
+  Boolean $detect_webdav_redirection = false,
   Integer $gm_object_cache_size = 12600000,
   Integer $gm_object_release_time = 600,
   Integer $gm_total_cache_size = 400000000,
-  Integer $oo_drawing_engine = 20, 
+  Integer $oo_drawing_engine = 20,
   Integer $oo_writer = 20,
   Boolean $proxy_final = true,
   Enum['none', 'system'] $proxy_type = 'system',
@@ -19,20 +20,21 @@ class forthewin::libreoffice7::config (
 
   if $verbose {
     info("[${trusted[certname]}] PARAMETERS:")
-    info("[${trusted[certname]}] gm_object_cache_size   = ${gm_object_cache_size}")
-    info("[${trusted[certname]}] gm_object_release_time = ${gm_object_release_time}")
-    info("[${trusted[certname]}] gm_total_cache_size    = ${gm_total_cache_size}")
-    info("[${trusted[certname]}] oo_drawing_engine      = ${oo_drawing_engine}")
-    info("[${trusted[certname]}] oo_writer              = ${oo_writer}")
-    info("[${trusted[certname]}] proxy_final            = ${proxy_final}")
-    info("[${trusted[certname]}] proxy_type             = ${proxy_type}")
-    info("[${trusted[certname]}] use_hw_accel           = ${use_hw_accel}")
-    info("[${trusted[certname]}] use_skia               = ${use_skia}")
+    info("[${trusted[certname]}] detect_webdav_redirection = ${detect_webdav_redirection}")
+    info("[${trusted[certname]}] gm_object_cache_size      = ${gm_object_cache_size}")
+    info("[${trusted[certname]}] gm_object_release_time    = ${gm_object_release_time}")
+    info("[${trusted[certname]}] gm_total_cache_size       = ${gm_total_cache_size}")
+    info("[${trusted[certname]}] oo_drawing_engine         = ${oo_drawing_engine}")
+    info("[${trusted[certname]}] oo_writer                 = ${oo_writer}")
+    info("[${trusted[certname]}] proxy_final               = ${proxy_final}")
+    info("[${trusted[certname]}] proxy_type                = ${proxy_type}")
+    info("[${trusted[certname]}] use_hw_accel              = ${use_hw_accel}")
+    info("[${trusted[certname]}] use_skia                  = ${use_skia}")
     info("[${trusted[certname]}] VARIABLES:")
-    info("[${trusted[certname]}] basereg                = ${basereg}")
-    info("[${trusted[certname]}] canvas                 = ${canvas}")
-    info("[${trusted[certname]}] common                 = ${common}")
-    info("[${trusted[certname]}] inet                   = ${inet}")
+    info("[${trusted[certname]}] basereg                   = ${basereg}")
+    info("[${trusted[certname]}] canvas                    = ${canvas}")
+    info("[${trusted[certname]}] common                    = ${common}")
+    info("[${trusted[certname]}] inet                      = ${inet}")
   }
 
   # Enable/disable Skia
@@ -94,8 +96,8 @@ class forthewin::libreoffice7::config (
     value => 'Value',
     data  => String($gm_object_release_time),
     type  => 'string',
-  }  
-  
+  }
+
   # Enable/disable hardware graphics acceleration
   registry::value { "ForceSafeServiceImpl":
     key   => "${canvas}\\ForceSafeServiceImpl",
@@ -119,5 +121,15 @@ class forthewin::libreoffice7::config (
     type  => 'dword',
   }
 
+  # WebDAV authentication mechanism:
+  # Use Windows': detect_webdav_redirection = false
+  # User LibreOffice's: detect_webdav_redirection = true
+  # https://wiki.documentfoundation.org/ReleaseNotes/7.2#Windows
+  registry::value { "DetectWebDAVRedirection":
+    key   => "${common}\\Load\\DetectWebDAVRedirection",
+    value => 'Value',
+    data  => String($detect_webdav_redirection),
+    type  => 'string',
+  }
 
 }
