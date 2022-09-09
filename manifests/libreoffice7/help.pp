@@ -25,7 +25,7 @@ class forthewin::libreoffice7::help (
   if $help_pack_path {
     $installer_path = $help_pack_path
   } else {
-    $installer_path = $forthewin::libreoffice7::installer_path
+    $installer_path = $forthewin::libreoffice7::install::installer_path
   }
 
   # Installer's full path - x86 and x64
@@ -39,7 +39,7 @@ class forthewin::libreoffice7::help (
   }
 
   # Choose which installer to use
-  if $forthewin::libreoffice7::install_x86_only {
+  if $forthewin::libreoffice7::install::install_x86_only {
     $installer = $installer_x86
   } else {
     if $facts[architecture] == 'x86' {

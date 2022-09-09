@@ -1,5 +1,7 @@
 # https://wiki.documentfoundation.org/Deployment_and_Migration
 class forthewin::libreoffice7::config (
+  Boolean $cleanhkcu = true,
+  Boolean $cleanhklm = true,
   Boolean $detect_webdav_redirection = false,
   Integer $gm_object_cache_size = 12600000,
   Integer $gm_object_release_time = 600,
@@ -18,8 +20,19 @@ class forthewin::libreoffice7::config (
   $common = "${basereg}\\org.openoffice.Office.Common"
   $inet = "${basereg}\\org.openoffice.Inet"
 
+  $hkcu_key = 'HKEY_CURRENT_USER\SOFTWARE\Policies\LibreOffice'
+  $command_hkcu = "${winparams::cmd} /c reg delete ${hkcu_key} /f"
+  $onlyif_hkcu = "${winparams::cmd} /c reg query ${hkcu_key}"
+
+  $hklm_key = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\LibreOffice'
+  $command_hklm = "${winparams::cmd} /c reg delete ${hklm_key} /f"
+  $unless_hklm = "${winparams::cmd} /c reg query ${hklm_key}\\org.openoffice.Office.Common\\VCL\\UseSkia"
+
+
   if $verbose {
     info("[${trusted[certname]}] PARAMETERS:")
+    info("[${trusted[certname]}] cleanhkcu                 = ${cleanhkcu}")
+    info("[${trusted[certname]}] cleanhklm                 = ${cleanhklm}")
     info("[${trusted[certname]}] detect_webdav_redirection = ${detect_webdav_redirection}")
     info("[${trusted[certname]}] gm_object_cache_size      = ${gm_object_cache_size}")
     info("[${trusted[certname]}] gm_object_release_time    = ${gm_object_release_time}")
@@ -33,8 +46,42 @@ class forthewin::libreoffice7::config (
     info("[${trusted[certname]}] VARIABLES:")
     info("[${trusted[certname]}] basereg                   = ${basereg}")
     info("[${trusted[certname]}] canvas                    = ${canvas}")
+    info("[${trusted[certname]}] command_hkcu              = ${command_hkcu}")
+    info("[${trusted[certname]}] command_hklm              = ${command_hklm}")
     info("[${trusted[certname]}] common                    = ${common}")
+    info("[${trusted[certname]}] hkcu_key                  = ${hkcu_key}")
+    info("[${trusted[certname]}] hklm_key                  = ${hklm_key}")
     info("[${trusted[certname]}] inet                      = ${inet}")
+    info("[${trusted[certname]}] onlyif_hkcu               = ${onlyif_hkcu}")
+    info("[${trusted[certname]}] unless_hklm               = ${unless_hklm}")
+  }
+
+  # Remover as configurações do registro em HKEY_CURRENT_USER evita sobreposição
+  # às configurações em HKEY_LOCAL_MACHINE, que tem menor precedência.
+  # Executa sempre que a chave existir no registro.
+  if $cleanhkcu {
+    exec { 'Exclui registros do LibreOffice de HKEY_CURRENT_USER':
+      command => $command_hkcu,
+      onlyif => $onlyif_hkcu
+    }
+  }
+
+  # Remover as configurações do registro em HKEY_LOCAL_MACHINE evita o uso
+  # de configurações e situações específicas para de versões anteriores do LibreOffice
+  # Executa a menos que exista a configuração do Skia (específica do 7.x)
+  if $cleanhklm {
+    exec { 'Exclui registros do LibreOffice de HKEY_LOCAL_MACHINE':
+      command => $command_hklm,
+      before  => ['Registry::Value[UseSkia]', 
+                  'Registry::Value[Writer.OLE_Objects]', 
+                  'Registry::Value[DrawingEngine.OLE_Objects]',
+                  'Registry::Value[TotalCacheSize]',
+                  'Registry::Value[ForceSafeServiceImpl]',
+                  'Registry::Value[ooInetProxyType.Value]',
+                  'Registry::Value[DetectWebDAVRedirection]',
+                 ],
+      unless => $unless_hklm
+    }
   }
 
   # Enable/disable Skia
@@ -85,12 +132,14 @@ class forthewin::libreoffice7::config (
     data  => String($gm_total_cache_size),
     type  => 'string',
   }
+  ->
   registry::value { "ObjectCacheSize":
     key   => "${common}\\Cache\\GraphicManager\\ObjectCacheSize",
     value => 'Value',
     data  => String($gm_object_cache_size),
     type  => 'string',
   }
+  ->
   registry::value { "ObjectReleaseTime":
     key   => "${common}\\Cache\\GraphicManager\\ObjectReleaseTime",
     value => 'Value',

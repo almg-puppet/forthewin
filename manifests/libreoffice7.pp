@@ -2,8 +2,6 @@ class forthewin::libreoffice7 (
   Boolean $config_hklm = false,
   Optional[String] $custom_class = undef,
   Boolean $install_help_pack = false,
-  Boolean $install_x86_only = false,
-  String $installer_path = "${forthewin::params::repo_basepath}\\libreoffice",
   Boolean $verbose = $forthewin::params::verbose,
   String $version
   ) inherits forthewin::params {
@@ -15,8 +13,6 @@ class forthewin::libreoffice7 (
     info("[${trusted[certname]}] config_hklm            = ${config_hklm}")
     info("[${trusted[certname]}] custom_class           = ${custom_class}")
     info("[${trusted[certname]}] install_help_pack      = ${install_help_pack}")
-    info("[${trusted[certname]}] install_x86_only       = ${install_x86_only}")
-    info("[${trusted[certname]}] installer_path         = ${installer_path}")
     info("[${trusted[certname]}] version                = ${version}")
     info("[${trusted[certname]}] VARIABLES:")
     info("[${trusted[certname]}] is_libreoffice_running = ${is_libreoffice_running}")
