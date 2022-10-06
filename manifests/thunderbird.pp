@@ -73,29 +73,30 @@ class forthewin::thunderbird (
       info("[${trusted[certname]}] thunderbird_home = ${thunderbird_home}")
     }
 
-    # https://docs.puppet.com/puppet/latest/lang_containment.html
-    contain forthewin::thunderbird::config
-    unless $config_only or $is_thunderbird_running {
-		  contain forthewin::thunderbird::preinstall
-		  contain forthewin::thunderbird::install
-		  # https://docs.puppet.com/puppet/latest/lang_relationships.html
-		  Class['forthewin::thunderbird::preinstall'] -> Class['forthewin::thunderbird::install'] -> Class['forthewin::thunderbird::config']
-    
+	unless $is_thunderbird_running {
+		# https://docs.puppet.com/puppet/latest/lang_containment.html
+		contain forthewin::thunderbird::config
+		unless $config_only {
+			  contain forthewin::thunderbird::preinstall
+			  contain forthewin::thunderbird::install
+			  # https://docs.puppet.com/puppet/latest/lang_relationships.html
+			  Class['forthewin::thunderbird::preinstall'] -> Class['forthewin::thunderbird::install'] -> Class['forthewin::thunderbird::config']
+		
 
-		# If you want to customize anything, implement it in a class and use the
-		# parameter "custom_class" for invocation. Be sure to control, inside this
-		# class, the precedence of execution. For example:
-		# Class['forthewin::thunderbird::config'] -> Class['custom::thunderbird']
-		# or
-		# Class['custom::thunderbird'] -> Class['forthewin::thunderbird::config']
-		unless empty($custom_class) {
-		  if $verbose {
-			notice("[${trusted[certname]}] Invoking class ${custom_class}")
-			}
-		  contain $custom_class
-		  }
+			# If you want to customize anything, implement it in a class and use the
+			# parameter "custom_class" for invocation. Be sure to control, inside this
+			# class, the precedence of execution. For example:
+			# Class['forthewin::thunderbird::config'] -> Class['custom::thunderbird']
+			# or
+			# Class['custom::thunderbird'] -> Class['forthewin::thunderbird::config']
+			unless empty($custom_class) {
+			  if $verbose {
+				notice("[${trusted[certname]}] Invoking class ${custom_class}")
+				}
+			  contain $custom_class
+			  }
+		}
 	}
-
   }
 
 }
