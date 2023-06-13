@@ -26,6 +26,7 @@ class forthewin::libreoffice7::config (
 
   $hklm_key = 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\LibreOffice'
   $command_hklm = "${winparams::cmd} /c reg delete ${hklm_key} /f"
+  $onlyif_hklm = "${winparams::cmd} /c reg query ${hklm_key}"
   $unless_hklm = "${winparams::cmd} /c reg query ${hklm_key}\\org.openoffice.Office.Common\\VCL\\UseSkia"
 
 
@@ -53,6 +54,7 @@ class forthewin::libreoffice7::config (
     info("[${trusted[certname]}] hklm_key                  = ${hklm_key}")
     info("[${trusted[certname]}] inet                      = ${inet}")
     info("[${trusted[certname]}] onlyif_hkcu               = ${onlyif_hkcu}")
+    info("[${trusted[certname]}] onlyif_hklm               = ${onlyif_hklm}")
     info("[${trusted[certname]}] unless_hklm               = ${unless_hklm}")
   }
 
@@ -80,6 +82,7 @@ class forthewin::libreoffice7::config (
                   'Registry::Value[ooInetProxyType.Value]',
                   'Registry::Value[DetectWebDAVRedirection]',
                  ],
+      onlyif => $onlyif_hklm,
       unless => $unless_hklm
     }
   }
