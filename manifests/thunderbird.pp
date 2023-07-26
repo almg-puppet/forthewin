@@ -1,5 +1,6 @@
 class forthewin::thunderbird (
   String $config_filename = 'thunderbird.cfg',
+  Optional[String] $policies_filename = undef,
   Boolean $config_only = false,
   Optional[String] $config_path = undef,
   Boolean $crashreporter_disable = true,
@@ -11,7 +12,7 @@ class forthewin::thunderbird (
   String $installer_path = "${forthewin::params::repo_basepath}\\thunderbird",
   Pattern[/\A[a-z]{2,3}(?:-[A-Z]{2})?\Z/] $lang = $forthewin::params::lang,
   Enum['win32', 'win64'] $os = 'win64',
-  Boolean $legacy_profiles = false,
+  Boolean $legacy_profiles = true,
   Boolean $opt_desktop_shortcut = true,
   Boolean $opt_install_maintenance_service = false,
   Boolean $opt_start_menu_shortcut = true,
