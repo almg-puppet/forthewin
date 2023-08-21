@@ -41,12 +41,17 @@ class forthewin::klite (
   # Install options
   $config = sprintf('%s\\%s', $config_path ? { undef => $installer_path, default => $config_path },
                               $config_filename ? { undef => "klcp_${bundle.downcase}_unattended.ini", default => $config_filename })
+  if $config =~ /^puppet:/ {
+    $config_slashed = regsubst($config, '\\\\', '/', 'G')
+  } else {
+    $config_slashed = $config
+  }
   $local_config = "${forthewin::params::tempdir}\\klite.ini"
   if $unattended_installation {
     $install_options = concat($command_line_options, ["/LoadInf=\"${local_config}\""])
     file { $local_config:
       before => Package['K-Lite Codec Pack'],
-      source => $config
+      source => $config_slashed
     }
   } else {
     $install_options = $command_line_options
@@ -63,6 +68,7 @@ class forthewin::klite (
   if $verbose {
     info("[${trusted[certname]}] VARIABLES:")
     info("[${trusted[certname]}] config          = ${config}")
+    info("[${trusted[certname]}] config_slashed  = ${config_slashed}")
     info("[${trusted[certname]}] install_options = ${install_options}")
     info("[${trusted[certname]}] installer       = ${installer}")
     info("[${trusted[certname]}] klite           = ${klite}")
