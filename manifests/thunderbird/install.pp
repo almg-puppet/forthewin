@@ -25,6 +25,7 @@ class forthewin::thunderbird::install {
   # Map install options
   $install_options = [
     sprintf('DESKTOP_SHORTCUT=%s', $forthewin::thunderbird::opt_desktop_shortcut),
+	sprintf('INSTALL_MAINTENANCE_SERVICE=%s', $forthewin::thunderbird::opt_install_maintenance_service),
     sprintf('START_MENU_SHORTCUT=%s', $forthewin::thunderbird::opt_start_menu_shortcut),
     sprintf('TASKBAR_SHORTCUT=%s', $forthewin::thunderbird::opt_taskbar_shortcut)
   ]
