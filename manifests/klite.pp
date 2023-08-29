@@ -1,5 +1,12 @@
+# Guidelines for unattended installation:
+# http://www.codecguide.com/silentinstall.htm
+#
+# Installation FAQ:
+# https://codecguide.com/faq_installation.htm
+#
 class forthewin::klite (
   Enum['Basic', 'Standard', 'Full', 'Mega'] $bundle = 'Standard',
+  Array[String] $command_line_options = ['/verysilent', '/norestart', '/suppressmsgboxes'],
   Optional[String] $config_filename = undef,
   Optional[String] $config_path = undef,
   Optional[String] $installer_filename = undef,
@@ -12,6 +19,7 @@ class forthewin::klite (
   if $verbose {
     info("[${trusted[certname]}] PARAMETERS:")
     info("[${trusted[certname]}] bundle                  = ${bundle}")
+    info("[${trusted[certname]}] command_line_options    = ${command_line_options}")
     info("[${trusted[certname]}] config_filename         = ${config_filename}")
     info("[${trusted[certname]}] config_path             = ${config_path}")
     info("[${trusted[certname]}] installer_filename      = ${installer_filename}")
@@ -31,13 +39,22 @@ class forthewin::klite (
   }
 
   # Install options
-  $default_install_options = ["/VERYSILENT", "/NORESTART", "/SUPPRESSMSGBOXES", "/FORCEUPGRADE"]
   $config = sprintf('%s\\%s', $config_path ? { undef => $installer_path, default => $config_path },
                               $config_filename ? { undef => "klcp_${bundle.downcase}_unattended.ini", default => $config_filename })
-  if $unattended_installation {
-    $install_options = concat($default_install_options, ["/LoadInf=\"${config}\""])
+  if $config =~ /^puppet:/ {
+    $config_slashed = regsubst($config, '\\\\', '/', 'G')
   } else {
-    $install_options = $default_install_options
+    $config_slashed = $config
+  }
+  $local_config = "${forthewin::params::tempdir}\\klite.ini"
+  if $unattended_installation {
+    $install_options = concat($command_line_options, ["/LoadInf=\"${local_config}\""])
+    file { $local_config:
+      before => Package['K-Lite Codec Pack'],
+      source => $config_slashed
+    }
+  } else {
+    $install_options = $command_line_options
   }
 
   # Package name
@@ -48,24 +65,20 @@ class forthewin::klite (
     $klite = "K-Lite Codec Pack ${version} ${bundle}"
   }
 
-  # The version is compatible with Windows XP?
-  $okxp = (Integer($plain_version) < 1386)
-
   if $verbose {
     info("[${trusted[certname]}] VARIABLES:")
     info("[${trusted[certname]}] config          = ${config}")
+    info("[${trusted[certname]}] config_slashed  = ${config_slashed}")
     info("[${trusted[certname]}] install_options = ${install_options}")
     info("[${trusted[certname]}] installer       = ${installer}")
-    info("[${trusted[certname]}] klite            = ${klite}")
+    info("[${trusted[certname]}] klite           = ${klite}")
+    info("[${trusted[certname]}] local_config    = ${local_config}")
     info("[${trusted[certname]}] major_version   = ${major_version}")
-    info("[${trusted[certname]}] okxp            = ${okxp}")
     info("[${trusted[certname]}] plain_version   = ${plain_version}")
     info("[${trusted[certname]}] v               = ${v}")
   }
 
-  if $forthewin::params::platform == 'wxp' and $okxp == false {
-    warning("[${trusted[certname]}] Version ${version} is not compatible with Windows XP")
-  } else {
+  unless $forthewin::params::platform == 'wxp' {
     package { 'K-Lite Codec Pack':
       name            => $klite,
       ensure          => $version,
