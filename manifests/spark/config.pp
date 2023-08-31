@@ -36,29 +36,10 @@ class forthewin::spark::config {
             match   => '^startOnStartup\=',
             path    => $config_file,
             replace => true,
-            before  => File_line['spark.properties.server']
+            require => File[$config_file]
         }
     }
-    
-    if versioncmp($forthewin::spark::version, '2.9.4') >= 0 {
-      file_line { 'spark.properties.checkCRL':
-          ensure  => present,
-          line    => 'checkCRL=false',
-          match   => '^checkCRL\=',
-          path    => $config_file,
-          replace => true,
-          before  => File_line['spark.properties.server']
-      }
-	  file_line { 'spark.properties.deactPlugins':
-          ensure  => present,
-          line    => 'deactivatedPlugins=Reversi,TicTacToe',
-          match   => '^deactivatedPlugins\=',
-          path    => $config_file,
-          replace => true,
-          before  => File_line['spark.properties.server']
-      }
-    }
-    
+
   }
 
 }
