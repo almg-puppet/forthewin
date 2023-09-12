@@ -17,6 +17,8 @@ class forthewin::firefox_esr (
   Pattern[/\A[0-9]{,3}[.][0-9]{,2}(?:[.][0-9])?esr\Z/] $version
   ) inherits forthewin::params {
 
+  $is_firefox_running = $facts[is_firefox_running]
+
   # fail() interrupts the whole execution, err() does not.
   if $installer_arch == 'auto' and $installer_filename {
     err('When installer_filename is specified, installer_arch cannot be <auto>.')
@@ -45,9 +47,12 @@ class forthewin::firefox_esr (
     info("[${trusted[certname]}] opt_start_menu_shortcut         = ${opt_start_menu_shortcut}")
     info("[${trusted[certname]}] opt_taskbar_shortcut            = ${opt_taskbar_shortcut}")
     info("[${trusted[certname]}] version                         = ${version}")
+    info("[${trusted[certname]}] VARIABLES:")
+    info("[${trusted[certname]}] error                           = ${error}")
+    info("[${trusted[certname]}] is_firefox_running              = ${is_firefox_running}")
   }
 
-  unless $error {
+  unless $error or $is_firefox_running {
 
     # Determines installer architecture
     if $installer_arch == 'auto' {
@@ -60,9 +65,8 @@ class forthewin::firefox_esr (
     $firefox_home = sprintf('%s\%s', $path_arch ? {'win32' => $forthewin::params::programfiles32, default => $forthewin::params::programfiles}, 'Mozilla Firefox')
 
     if $verbose {
-      info("[${trusted[certname]}] VARIABLES:")
-      info("[${trusted[certname]}] path_arch    = ${path_arch}")
-      info("[${trusted[certname]}] firefox_home = ${firefox_home}")
+      info("[${trusted[certname]}] firefox_home                    = ${firefox_home}")
+      info("[${trusted[certname]}] path_arch                       = ${path_arch}")
     }
 
     # https://docs.puppet.com/puppet/latest/lang_containment.html
