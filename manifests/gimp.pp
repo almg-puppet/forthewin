@@ -16,7 +16,7 @@ class forthewin::gimp (
   }
 
   # Is GIMP running?
-  $is_gimp_running = str2bool($facts[is_gimp_running])
+  $is_gimp_running = $facts[is_gimp_running]
 
   if $verbose {
     info("[${trusted[certname]}] VARIABLES:")

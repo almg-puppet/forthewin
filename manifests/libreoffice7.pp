@@ -6,7 +6,7 @@ class forthewin::libreoffice7 (
   String $version
   ) inherits forthewin::params {
 
-  $is_libreoffice_running = str2bool($facts[is_libreoffice_running])
+  $is_libreoffice_running = $facts[is_libreoffice_running]
 
   if $verbose {
     info("[${trusted[certname]}] PARAMETERS:")

@@ -23,7 +23,7 @@ class forthewin::thunderbird (
   
   $config_ini = "${forthewin::thunderbird::tempdir}\\tb_config.ini"
   
-  $is_thunderbird_running = str2bool($facts[is_thunderbird_running])
+  $is_thunderbird_running = $facts[is_thunderbird_running]
 
   # fail() interrupts the whole execution, err() does not.
   if $installer_arch == 'auto' and $installer_filename {

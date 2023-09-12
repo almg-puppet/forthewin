@@ -54,7 +54,7 @@ class forthewin::libreoffice (
     fail('Parameters check_for_updates and remove_online_update both set to TRUE - what do you want to do? Leave the online update feature installed and checking for updates ou remove the feature for good?')
   }
 
-  $is_libreoffice_running = str2bool($facts[is_libreoffice_running])
+  $is_libreoffice_running = $facts[is_libreoffice_running]
   if $verbose {
     info("[${trusted[certname]}] VARIABLES:")
     info("[${trusted[certname]}] is_libreoffice_running    = ${is_libreoffice_running}")
