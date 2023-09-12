@@ -1,4 +1,3 @@
-# Executa apenas se o arquivo não existir ou a data for anterior à atual
 def is_running?(process_name)
   cmd = %Q[tasklist /FI "IMAGENAME eq #{process_name}" 2>NUL | find /I "#{process_name}"]
   #puts cmd    
