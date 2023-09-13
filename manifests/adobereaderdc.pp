@@ -13,8 +13,8 @@ class forthewin::adobereaderdc (
 
   if $verbose {
     info("[${trusted[certname]}] PARAMETERS:")
-    info("[${trusted[certname]}] acrobat_update_filename = ${reader_update_filename}")
-    info("[${trusted[certname]}] acrobat_update_version  = ${reader_update_version}")
+    info("[${trusted[certname]}] acrobat_update_filename = ${acrobat_update_filename}")
+    info("[${trusted[certname]}] acrobat_update_version  = ${acrobat_update_version}")
     info("[${trusted[certname]}] base_filename           = ${base_filename}")
     info("[${trusted[certname]}] base_version            = ${base_version}")
     info("[${trusted[certname]}] installer_path          = ${installer_path}")
