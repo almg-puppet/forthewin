@@ -46,7 +46,7 @@ class forthewin::adobereaderdc (
   if $acrobat_update_filename {
     $acrobat_update_installer = "${installer_path}\\${acrobat_update_filename}"
   } else {
-    $acrobat_update_installer = "${installer_path}\\AcrobatDCx64Upd${acrobat_flat_update_version}.msp"
+    $acrobat_update_installer = "${installer_path}\\AcroRdrDCx64Upd${acrobat_flat_update_version}.msp"
   }
 
   # Set update installer path for READER
