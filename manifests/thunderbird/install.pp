@@ -23,16 +23,19 @@ class forthewin::thunderbird::install {
   }
 
   # Map install options
-  $install_options = [
+  # https://enterprise.thunderbird.net/deploy/deploy-thunderbird-with-msi-installers
+  $bol_options = [
     sprintf('DESKTOP_SHORTCUT=%s', $forthewin::thunderbird::opt_desktop_shortcut),
-	sprintf('INSTALL_MAINTENANCE_SERVICE=%s', $forthewin::thunderbird::opt_install_maintenance_service),
+    sprintf('INSTALL_MAINTENANCE_SERVICE=%s', $forthewin::thunderbird::opt_install_maintenance_service),
     sprintf('START_MENU_SHORTCUT=%s', $forthewin::thunderbird::opt_start_menu_shortcut),
     sprintf('TASKBAR_SHORTCUT=%s', $forthewin::thunderbird::opt_taskbar_shortcut)
   ]
+  $install_options = $bol_options + ($forthewin::thunderbird::opt_install_dirname ? { undef => [], default => sprintf('INSTALL_DIRECTORY_NAME=%s', $forthewin::thunderbird::opt_install_dirname)}) + ($forthewin::thunderbird::opt_install_dirpath ? {undef => [], default => sprintf('INSTALL_DIRECTORY_PATH=%s', $forthewin::thunderbird::opt_install_dirpath)})
 
   if $forthewin::thunderbird::verbose {
     info("[${trusted[certname]}] VARIABLES:")
     info("[${trusted[certname]}] arch            = ${arch}")
+    info("[${trusted[certname]}] bol_options     = ${bol_options}")
     info("[${trusted[certname]}] install_options = ${install_options}")
     info("[${trusted[certname]}] installer       = ${installer}")
     info("[${trusted[certname]}] major           = ${major}")
