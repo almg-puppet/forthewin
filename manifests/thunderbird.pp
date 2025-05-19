@@ -18,7 +18,7 @@ class forthewin::thunderbird (
   #Enum['win32', 'win64'] $os = 'win64',
   Optional[String] $policies_filename = undef,
   Boolean $verbose = $forthewin::params::verbose,
-  Pattern[/\A[0-9]{,3}[.][0-9]{,2}(?:[.][0-9])?\Z/] $version
+  Pattern[/\A[0-9]{,3}[.][0-9]{,2}(?:[.][0-9])?(esr)?\Z/] $version
   ) inherits forthewin::params {
 
   $is_thunderbird_running = $facts[is_thunderbird_running]
