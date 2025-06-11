@@ -1,5 +1,5 @@
 class forthewin::thunderbird (
-  String $config_filename = 'thunderbird.cfg',
+  String $config_filename = undef,
   Boolean $config_only = false,
   Optional[String] $config_path = undef,
   Boolean $crashreporter_disable = true,

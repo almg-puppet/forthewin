@@ -30,21 +30,29 @@ class forthewin::thunderbird::config {
     info("[${trusted[certname]}] thunderbird_home = ${thunderbird_home}")
   }
 
-  file { $mozillacfg_dst:
-    ensure => file,
-    source => $mozillacfg_src,
-  }
-  ->
-  file { $autoconfig_dst:
-    ensure => file,
-    content => "// ${forthewin::params::default_header}pref(\"general.config.obscure_value\", 0);\r\npref(\"general.config.filename\", \"mozilla.cfg\");\r\n",
+  unless empty($forthewin::thunderbird::config_filename) {
+
+    file { $mozillacfg_dst:
+      ensure => file,
+      source => $mozillacfg_src,
+    }
+    ->
+    file { $autoconfig_dst:
+      ensure => file,
+      content => "// ${forthewin::params::default_header}pref(\"general.config.obscure_value\", 0);\r\npref(\"general.config.filename\", \"mozilla.cfg\");\r\n",
+    }
+
   }
 
-  # Disable Autoconfig (Versions 72+)
-  registry::value { 'DisableAppUpdate':
-    key  => 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Mozilla\Thunderbird',
-    data => '00000001',
-    type => 'dword',
+  if versioncmp(delete($forthewin::thunderbird::version, 'esr'), '128.11.0') < 0 {
+
+    # Disable Autoconfig (Versions 72+)
+    registry::value { 'DisableAppUpdate':
+      key  => 'HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Mozilla\Thunderbird',
+      data => '00000001',
+      type => 'dword',
+    }
+
   }
 
   # Migration to policies. For TB 68+, configurations
