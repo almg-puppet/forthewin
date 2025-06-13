@@ -8,7 +8,6 @@ class forthewin::thunderbird (
   Optional[String] $installer_filename = undef,
   String $installer_path = "${forthewin::params::repo_basepath}\\thunderbird",
   Pattern[/\A[a-z]{2,3}(?:-[A-Z]{2})?\Z/] $lang = $forthewin::params::lang,
-  Boolean $legacy_profiles = true,
   Boolean $opt_desktop_shortcut = true,
   Optional[String] $opt_install_dirname= undef,
   Optional[String] $opt_install_dirpath= undef,
@@ -45,7 +44,6 @@ class forthewin::thunderbird (
     info("[${trusted[certname]}] installer_filename              = ${installer_filename}")
     info("[${trusted[certname]}] installer_path                  = ${installer_path}")
     info("[${trusted[certname]}] lang                            = ${lang}")
-    info("[${trusted[certname]}] legacy_profiles                 = ${legacy_profiles}")
     info("[${trusted[certname]}] opt_install_dirname             = ${opt_install_dirname}")
     info("[${trusted[certname]}] opt_install_dirpath             = ${opt_install_dirpath}")
     info("[${trusted[certname]}] opt_desktop_shortcut            = ${opt_desktop_shortcut}")
