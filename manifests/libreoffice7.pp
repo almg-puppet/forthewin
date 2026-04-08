@@ -3,7 +3,8 @@ class forthewin::libreoffice7 (
   Optional[String] $custom_class = undef,
   Boolean $install_help_pack = false,
   Boolean $verbose = $forthewin::params::verbose,
-  String $version
+  String $version,
+  Boolean $uninstall_on_downgrade = false
   ) inherits forthewin::params {
 
   $is_libreoffice_running = $facts[is_libreoffice_running]
@@ -20,6 +21,12 @@ class forthewin::libreoffice7 (
 
   unless $is_libreoffice_running or $forthewin::params::platform in ['wxp', 'wvista'] {
 
+    
+    if $uninstall_on_downgrade {
+      contain forthewin::libreoffice7::uninstall
+      Class['forthewin::libreoffice7::uninstall'] -> Class['forthewin::libreoffice7::install']
+    }
+    
     contain forthewin::libreoffice7::install
 
     if $config_hklm {

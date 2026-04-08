@@ -66,5 +66,4 @@ class forthewin::libreoffice7::help (
     source          => $installer,
     install_options => $help_pack_install_options,
   }
-
 }
