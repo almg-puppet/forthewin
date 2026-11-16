@@ -60,7 +60,7 @@ class forthewin::libreoffice7::help (
     info("[${trusted[certname]}] installer       = ${installer}")
   }
 
-  package { "LibreOffice Help Pack ${v[0]}.x":
+  package { "LibreOffice Help Pack":
     name            => "LibreOffice ${shorter_version} Help Pack (${help_pack_lang_name})",
     ensure          => $full_version,
     source          => $installer,
