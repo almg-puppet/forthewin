@@ -3,7 +3,7 @@ class forthewin::libreoffice7::help (
   Array[String] $help_pack_install_options = [],
   String $help_pack_lang = 'en-US',
   String $help_pack_lang_name = 'English (United States)',
-  Optional[String] $help_pack_path = undef,
+  Optional[String] $help_pack_path = undef, 
   Boolean $verbose = $forthewin::libreoffice7::verbose
   ) {
 
