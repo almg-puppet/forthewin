@@ -16,6 +16,9 @@ class forthewin::libreoffice7::uninstall (
   # Version of the package to be uninstalled
   $installed_version = split($facts[libreoffice_version], '[.]')
 
+  notify { 'debug_versao_libreoffice':
+    message => "Versão instalada: ${facts['libreoffice_version']} | Versão alvo: ${full_version}",
+  }
   if versioncmp($facts[libreoffice_version] , $full_version) > 0 { 
 
     warning("[${trusted[certname]}] Desinstalando LibreOffice: ${facts[libreoffice_version]}")
@@ -29,6 +32,9 @@ class forthewin::libreoffice7::uninstall (
   
   $installed_help_version = split($facts[libreoffice_help_version], '[.]')
   $short_installed_help_version = "${installed_help_version[0]}.${installed_help_version[1]}"
+  notify { 'debug_versao_libreoffice_helper':
+    message => "Versão instalada: ${facts['libreoffice_help_version']} | Versão alvo: ${full_version}",
+  }
   if versioncmp($facts[libreoffice_help_version] , $full_version) > 0 {
     
     warning("[${trusted[certname]}] Desinstalando LibreOffice Help Pack: ${facts[libreoffice_help_version]}")
