@@ -18,7 +18,8 @@ Facter.add("libreoffice_version") do
   setcode do
     version = '0.0.0'
     if Facter.value(:is_libreoffice_installed)
-      reg = Facter::Core::Execution.execute('powershell -command "(Get-ItemProperty HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\* | Where-Object { $_.DisplayName -like \'*LibreOffice*\' -and $_.DisplayName -notlike \'*Help*\'}).DisplayVersion"')
+      reg = Facter::Core::Execution.execute('powershell -NoProfile -Command "Get-ChildItem HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall,HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall -ErrorAction SilentlyContinue | ForEach-Object { try { $n = $_.GetValue(\'DisplayName\'); if ($n -like \'*LibreOffice*\' -and $n -notmatch \'Help Pack|SDK|Language Pack\') { $_.GetValue(\'DisplayVersion\') } } catch {} } | Select-Object -First 1"')
+      
       if !reg.empty?
         version = reg.split()[0]
       end
@@ -33,7 +34,7 @@ Facter.add("libreoffice_help_version") do
   end
   setcode do
     version = '0.0.0'
-    reg = Facter::Core::Execution.execute('powershell -command "(Get-ItemProperty HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\* | Where-Object { $_.DisplayName -like \'*LibreOffice*\' -and $_.DisplayName -like \'*Help*\'}).DisplayVersion"')
+    reg = Facter::Core::Execution.execute('powershell -NoProfile -Command "Get-ChildItem HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall,HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall -ErrorAction SilentlyContinue | ForEach-Object { try { $n = $_.GetValue(\'DisplayName\'); if ($n -like \'*LibreOffice*\' -and $n -like \'*Help*\') { $_.GetValue(\'DisplayVersion\') } } catch {} } | Select-Object -First 1"')
     if !reg.empty?
       version = reg.split()[0]
     end

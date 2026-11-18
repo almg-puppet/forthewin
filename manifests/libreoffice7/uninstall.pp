@@ -7,8 +7,6 @@ class forthewin::libreoffice7::uninstall (
   if $verbose {
     info("[${trusted[certname]}] PARAMETERS:")
     info("[${trusted[certname]}] verbose = ${verbose}")
-    info("[${trusted[certname]}]  LibreOffice Versão: ${facts[libreoffice_version]}")
-    info("[${trusted[certname]}]  LibreOffice Help Pack Versão: ${facts['libreoffice_help_version']}")
   }
   # Version of the package to be installed
   $v = split($forthewin::libreoffice7::version, '[.]')
