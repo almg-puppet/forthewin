@@ -8,6 +8,7 @@ class forthewin::adobereaderdc (
   String $lang = 'pt_BR',
   Optional[String] $reader_update_filename = undef,
   Pattern[/\A[0-9]+[.][0-9]+[.][0-9]+\Z/] $reader_update_version,
+  Boolean $force_downgrade = false,
   Boolean $verbose = $forthewin::params::verbose,
   ) inherits forthewin::params {
 
@@ -21,6 +22,7 @@ class forthewin::adobereaderdc (
     info("[${trusted[certname]}] lang                    = ${lang}")
     info("[${trusted[certname]}] reader_update_filename  = ${reader_update_filename}")
     info("[${trusted[certname]}] reader_update_version   = ${reader_update_version}")
+    info("[${trusted[certname]}] force_downgrade         = ${force_downgrade}")
   }
 
   # Version parsing
@@ -71,6 +73,12 @@ class forthewin::adobereaderdc (
     info("[${trusted[certname]}] reader_update_installer     = ${reader_update_installer}")
   }
 
+  # Set package variables used by both initial installation and forced downgrade
+  $language = $lang ? {'pt_BR' => ' - Português', default => ''}
+  $package_title = "Adobe Reader ${product} ${base_version}"
+  $package_name = "Adobe Acrobat Reader${language}"
+  $base_install_exec_command = "\"${base_installer}\" /sAll /rs"
+
   if $is_adobeacrobatdc_installed {
 
     # https://www.puppet.com/docs/puppet/5.5/function#versioncmp
@@ -98,8 +106,28 @@ class forthewin::adobereaderdc (
 
   } elsif $is_adobereaderdc_installed {
 
+    # Force downgrade to base version when requested and installed version is greater than target version
+    if $force_downgrade and versioncmp($adobereaderdc_version, $reader_update_version) == 1 {
+
+      $reader_uninstall_title = "${package_title} (uninstall)"
+
+      if $verbose {
+        info("[${trusted[certname]}] reader_uninstall_title = ${reader_uninstall_title}")
+      }
+
+      package { $reader_uninstall_title:
+        name   => $package_name,
+        ensure => absent,
+      }
+
+      exec { $package_title:
+        command => $base_install_exec_command,
+        returns => [0, 3010],
+        require => Package[$reader_uninstall_title],
+      }
+
     # Update READER only if newer than current version
-    if versioncmp($reader_update_version, $adobereaderdc_version) == 1 {
+    } elsif versioncmp($reader_update_version, $adobereaderdc_version) == 1 {
 
       $reader_exec_title = "Adobe Reader ${reader_update_version}"
       $reader_exec_command = "C:\\Windows\\System32\\msiexec.exe /update ${reader_update_installer} /qn"
@@ -115,11 +143,7 @@ class forthewin::adobereaderdc (
     }
 
   } else {
-    # Nothing installed - installl base version
-
-    $language = $lang ? {'pt_BR' => ' - Português', default => ''}
-    $package_title = "Adobe Reader ${product} ${base_version}"
-    $package_name = "Adobe Reader ${product}${language}"
+    # Adobe Reader is not installed - install base version
 
     if $verbose {
       info("[${trusted[certname]}] language      = ${language}")
@@ -127,11 +151,9 @@ class forthewin::adobereaderdc (
       info("[${trusted[certname]}] package_name  = ${package_name}")
     }
 
-    package { $package_title:
-      name            => $package_name,
-      ensure          => present,
-      source          => $base_installer,
-      install_options => ['/sAll']
+    exec { $package_title:
+      command => $base_install_exec_command,
+      returns => [0, 3010],
     }
 
   }
